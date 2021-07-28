@@ -1,0 +1,59 @@
+.toggle-switch {
+	padding: 2px;
+	display: inline-block;
+	font-size: 0;
+}
+
+.toggle-switch label {
+	cursor: pointer;
+}
+
+.toggle-switch input[type="checkbox"] {
+	margin-right: 8px;
+	width: 16px;
+	height: 16px;
+	display: none;
+}
+.toggle-switch span {
+	position: relative;
+	display: inline-block;
+}
+
+.toggle-switch span::before, .toggle-switch span::after {
+	content: '';
+	display: inline-block;
+}
+
+.toggle-switch span::before {
+	height: 12px;
+	width: 28px;
+	opacity: 1;
+	border-radius: 8px;
+	transition: background-color linear 80ms;
+	background-color: #bdc1c6;
+}
+
+.toggle-switch span::after {
+	height: 16px;
+	width: 16px;
+	border-radius: 8px;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	transition: left linear 80ms;
+	background-color: #1a73e8;
+}
+
+.toggle-switch input {
+	display: none;
+}
+
+.toggle-switch input:checked + span::after {
+	left: 14px;
+}
+
+.toggle-switch input:checked + span::before {
+	background-color: #1a73e8;
+	opacity: .5;
+}

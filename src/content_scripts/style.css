@@ -1,0 +1,160 @@
+
+/* **********************************************
+ * メッセージ欄の行間を狭く
+ ************************************************ */
+
+/* ************* 1 ************* */
+/* ユーザアイコン単位のメッセージ */
+.margin-removal-1 .nF6pT {
+	padding-top: 8px !important;
+}
+
+/* 同じユーザが連投した時のメッセージ */
+.margin-removal-1 .dsoUjb:not(.WQKmIb) .jO0Dzb.nF6pT {
+	margin-top: 2px !important;
+}
+
+/* ユーザ名の行 */
+.margin-removal-1 .NGoCob {
+	padding-bottom: 2px !important;
+}
+
+/* リアクション */
+.margin-removal-1 .SFMExc {
+	margin-top: 2px !important;
+}
+
+/* アイコン */
+.margin-removal-1 .HTZBof {
+	margin-right: 8px !important;
+}
+
+/* ************* 2 ************* */
+/* ユーザアイコン単位のメッセージ */
+.margin-removal-2 .nF6pT {
+	padding-top: 4px !important;
+}
+
+/* 同じユーザが連投した時のメッセージ */
+.margin-removal-2 .dsoUjb:not(.WQKmIb) .jO0Dzb.nF6pT {
+	margin-top: 1px !important;
+}
+
+/* ユーザ名の行 */
+.margin-removal-2 .NGoCob {
+	padding-bottom: 1px !important;
+}
+
+.margin-removal-2 .Zc1Emd {
+	line-height: 1.1rem !important;
+}
+
+/* リアクション */
+.margin-removal-2 .SFMExc {
+	margin-top: 1px !important;
+}
+
+/* アイコン */
+.margin-removal-2 .HTZBof {
+	margin-right: 8px !important;
+}
+/* ************* 3 ************* */
+/* ユーザアイコン単位のメッセージ */
+.margin-removal-3 .nF6pT {
+	padding-top: 2px !important;
+}
+
+/* 同じユーザが連投した時のメッセージ */
+.margin-removal-3 .dsoUjb:not(.WQKmIb) .jO0Dzb.nF6pT {
+	margin-top: 0 !important;
+}
+
+/* ユーザ名の行 */
+.margin-removal-3 .NGoCob {
+	padding-bottom: 0 !important;
+}
+
+.margin-removal-3 .Zc1Emd {
+	line-height: 1.05rem !important;
+}
+
+/* リアクション */
+.margin-removal-3 .SFMExc {
+	margin-top: 0 !important;
+}
+
+/* アイコン */
+.margin-removal-3 .HTZBof {
+	margin-right: 8px !important;
+}
+
+
+/* **********************************************
+ * メッセージ欄のユーザ名を太字に
+ ************************************************ */
+/* ユーザ名 */
+.bold-name .AflJR .njhDLd {
+	font-family: "Yu Gothic UI", 'Google Sans', Arial, sans-serif !important;
+	font-weight: 600 !important;
+}
+
+/* **********************************************
+ * URLサムネ画像オフ
+ ************************************************ */
+.hide-ogp-image .Pj9rof[aria-label*="ウェブページ"] .tHcB6b {
+	display: none !important;
+}
+
+/* **********************************************
+ * URLサムネ埋め込み全部オフ
+ ************************************************ */
+.hide-ogp-all .Pj9rof[aria-label*="ウェブページ"] {
+	display: none !important;
+}
+
+/* **********************************************
+ * 添付ファイルのサムネ画像オフ
+ ************************************************ */
+.hide-file-thumbnail .Pj9rof:not([aria-label*="ウェブページ"]) .tHcB6b {
+	display: none !important;
+}
+
+
+/* **********************************************
+ * メッセージピン止めの上部バナー
+ ************************************************ */
+.pinned-banner {
+	padding: 8px 0;
+	width: 100%;
+	height: 16px;;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	border-bottom: solid 1px #eee;
+	z-index: 1;
+}
+
+.pinned-banner > :first-child {
+	margin-left: 32px;
+}
+
+.pinned-banner svg {
+	margin-right: 4px;
+	height: 16px;
+}
+
+.pinned-banner span {
+	vertical-align: top;
+	font-size: 0.9375rem;
+}
+
+.none {
+	display: none;
+}
+
+
+/* **********************************************
+ * 
+ ************************************************ */
+ 

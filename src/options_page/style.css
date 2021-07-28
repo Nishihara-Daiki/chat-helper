@@ -1,0 +1,75 @@
+html {
+	font-size: 16px;
+}
+
+body {
+	background-color: #f0f0f0;
+}
+
+body > h1, body > h2, body > div {
+	margin-left: auto;
+	margin-right: auto;
+	width: 544px;
+}
+
+button {
+	margin-right: 8px;
+	padding: 8px;
+	background-color: #f8f8f8;
+	border: solid 1px #ccc;
+}
+
+button:active {
+	background-color: #ccc;
+}
+
+section {
+	margin: 16px auto;
+	padding: 16px;
+	width: 512px;
+	background-color: #f8f8f8;
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	position: relative;
+	display: flex;
+}
+
+.switch {
+	padding: 4px 16px 4px 0;
+}
+
+select {
+	margin-bottom: 8px;
+	border: none;
+	border-bottom: solid 1px #ccc;
+	background: none;
+	outline: none;
+}
+
+h3 {
+	margin: 0;
+}
+
+p {
+	margin: 8px 0;
+	line-height: 1.2rem;
+}
+
+footer {
+	background-color: #333;
+	color: #ccc
+}
+
+footer p {
+	margin: 0 auto;
+	padding: 16px;
+	width: 544px;
+	text-align: center;
+}
+
+.unimplemented::before {
+	content: '未実装';
+	padding: 0 8px;
+	color: #ff3333;
+	font-size: 0.7rem;
+}

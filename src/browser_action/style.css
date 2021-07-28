@@ -1,0 +1,25 @@
+html {
+	font-size: 16px;
+}
+
+body {
+	padding: 16px;
+	min-width: 256px;
+}
+
+input[type="checkbox"] {
+	margin-right: 8px;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+ul {
+	padding: 0;
+}
+
+li {
+	font-size: 1rem;
+	list-style: none;
+	line-height: 2rem;
+}

@@ -138,6 +138,28 @@ var put_pinned_banner = e => {
 	});
 };
 
+// 画像を閉じる
+var hold_images = (e, is_open) => {
+	if (e.hasChildNodes() == false) {
+		return;
+	}
+	$wrapper = e.firstChild;
+	$inner = $wrapper.firstChild;
+	aria_label = $inner.firstChild.getAttribute('aria-label');
+	if (typeof(aria_label) != "string" || aria_label.indexOf('画像') == -1) {
+		return;
+	}
+
+	$details = document.createElement('details');
+	$details.open = is_open;
+	$details.classList.add('hold-images');
+	$summary = document.createElement('summary');
+	$summary.textContent = "画像";
+	$details.append($summary);
+	$wrapper.append($details);
+	$details.append($inner);
+};
+
 var main = () => {
 	chrome.storage.local.get(null, settings => {
 		if (settings["margin_removal"]) {
@@ -185,20 +207,31 @@ var main = () => {
 			}
 		};
 
+		for_image = e => {
+			if (settings["hold_images"]) {
+				hold_images(e, settings["hold_images_option"] == 'open');
+			}
+		}
+
 		// チャット欄コンテナごと
 		var CONTAINER_QUERY = 'div[jsname="mUnMUb"]';
 		insertionQ(CONTAINER_QUERY).every(for_container);
 		[...document.querySelectorAll(CONTAINER_QUERY)].forEach(for_container);
 
-		// 各スレッドごと
+		// スレッドごと
 		var THREAD_QUERY = 'c-wiz[jsname="JT2yOd"]';
 		insertionQ(THREAD_QUERY).every(for_thread);
 		[...document.querySelectorAll(THREAD_QUERY)].forEach(for_thread);
 
-		// 各メッセージごと
+		// メッセージごと
 		var MESSAGE_QUERY = 'div[jsname="Ne3sFf"][class~="nF6pT"]';
 		insertionQ(MESSAGE_QUERY).every(for_message);
 		[...document.querySelectorAll(MESSAGE_QUERY)].forEach(for_message);
+
+		// 画像ごと
+		var IMAGE_QUERY = 'div[jsname="KUOBaf"]';
+		insertionQ(IMAGE_QUERY).every(for_image);
+		[...document.querySelectorAll(IMAGE_QUERY)].forEach(for_image);
 	});
 };
 

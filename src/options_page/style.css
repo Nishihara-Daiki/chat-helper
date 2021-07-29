@@ -67,7 +67,11 @@ footer p {
 	text-align: center;
 }
 
-.unimplemented::before {
+.unimplemented {
+	background-color: transparent;
+}
+
+.unimplemented h3::after {
 	content: '未実装';
 	padding: 0 8px;
 	color: #ff3333;

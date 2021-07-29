@@ -53,97 +53,101 @@
 	<section>
 		<div class="switch"><div class="toggle-switch"><label><input id="hold_images" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>画像折り畳みの有効化<span class="unimplemented"></span></h3>
+			<h3>画像折り畳みの有効化</h3>
 			<p>各画像を小さく折りたたむボタンを表示する。</p>
+			<select id="hold_images_option">
+				<option value="open">常に開く</option>
+				<option value="close">常に閉じる</option>
+			</select>
 		</div>
 	</section>
 
 	<h2>追加情報の表示</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="user_status" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>ステータスの表示<span class="unimplemented"></span></h3>
+			<h3>ステータスの表示</h3>
 			<p>ユーザのステータスを取得し、ユーザ名の隣に表示する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="gss_gchat" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>発言者名の付与<span class="unimplemented"></span></h3>
+			<h3>発言者名の付与</h3>
 			<p>Slack転送bot等の「from: user-name」を検出してユーザ名とアイコンを表示する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="markdown" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>Markdown<span class="unimplemented"></span></h3>
+			<h3>Markdown</h3>
 			<p>各メッセージをMarkdown形式として認識する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="chatroom_link" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>チャットルーム名の検出<span class="unimplemented"></span></h3>
+			<h3>チャットルーム名の検出</h3>
 			<p>メッセージ内の「#chatroom-name」を検出し、リンクを貼る。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="custom_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>カスタム絵文字<span class="unimplemented"></span></h3>
+			<h3>カスタム絵文字</h3>
 			<p>「:emoji:」を検出して、絵文字を埋め込む。</p>
 		</div>
 	</section>
 
 	<h2>スレッド</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="compact_thread" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>スレッドを畳む<span class="unimplemented"></span></h3>
+			<h3>スレッドを畳む</h3>
 			<p>スレッドを最初のメッセージのみ表示し、続くメッセージを折りたたむ。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="sort_thread" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>スレッドの並べ替え<span class="unimplemented"></span></h3>
+			<h3>スレッドの並べ替え</h3>
 			<p>スレッドを最初のメッセージ順に並べかえ、スレッドのリプライが更新されても最下に来ないようにする。</p>
 		</div>
 	</section>
 
 	<h2>入力補助</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="template" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>テンプレート入力<span class="unimplemented"></span></h3>
+			<h3>テンプレート入力</h3>
 			<p>メッセージ入力欄でのテンプレートを設定する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="auto_save" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>下書き自動保存<span class="unimplemented"></span></h3>
+			<h3>下書き自動保存</h3>
 			<p>入力中のテキストを自動保存し、ページをリロードした際に復元する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="rich_text" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>リッチテキストのリアルタイム反映<span class="unimplemented"></span></h3>
+			<h3>リッチテキストのリアルタイム反映</h3>
 			<p>テキスト入力中のリッチテキストをリアルタイムで表示する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="return_key" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>テキスト入力時の改行および送信キー変更<span class="unimplemented"></span></h3>
+			<h3>テキスト入力時の改行および送信キー変更</h3>
 			<p>Reternキーで改行、Ctrl+Returnキーで送信に変更する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="cancel_submit" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>送信取り消しボタン<span class="unimplemented"></span></h3>
+			<h3>送信取り消しボタン</h3>
 			<p>
 				<select id="cancel_submit_option">
 					<option value="5">5</option>
@@ -171,56 +175,56 @@
 	</section>
 
 	<h2>リアクション</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="search_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>リアクションの曖昧検索<span class="unimplemented"></span></h3>
+			<h3>リアクションの曖昧検索</h3>
 			<p>リアクションの曖昧検索を有効にし、類義語や英語入力に対応する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="freq_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>よく使うリアクションのサジェスト<span class="unimplemented"></span></h3>
+			<h3>よく使うリアクションのサジェスト</h3>
 			<p>最近よく使っているリアクションを表示し、素早くリアクションできるようにする。</p>
 		</div>
 	</section>
 
 	<h2>サイドバー</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="sort_chatroom" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>チャットルームの並べ替え<span class="unimplemented"></span></h3>
+			<h3>チャットルームの並べ替え</h3>
 			<p>サイドバーのチャットルーム一覧を名前順に並べ替える。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="strong_mute" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>ミュート時の新着表示オフ<span class="unimplemented"></span></h3>
+			<h3>ミュート時の新着表示オフ</h3>
 			<p>ミュート時に新着表示をオフにし、チャットルームが更新されても知らせない。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="compact_chatname" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>チャット一覧をコンパクトに表示<span class="unimplemented"></span></h3>
+			<h3>チャット一覧をコンパクトに表示</h3>
 			<p>チャットルームと同様に、小さなアイコンとユーザ名のみを表示する。</p>
 		</div>
 	</section>
 
 	<h2>検索</h2>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="search_help" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>検索入力補助<span class="unimplemented"></span></h3>
+			<h3>検索入力補助</h3>
 			<p>検索時の期間指定等の入力ヘルプを表示する。</p>
 		</div>
 	</section>
-	<section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="search_chatroom" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
-			<h3>検索のチャットルーム指定<span class="unimplemented"></span></h3>
+			<h3>検索のチャットルーム指定</h3>
 			<p>検索時にチャットルームを指定できるようにする。</p>
 		</div>
 	</section>

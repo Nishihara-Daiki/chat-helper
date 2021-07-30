@@ -59,9 +59,9 @@ var put_message_action_button = (e, icon_svg, help_text, on_click) => {
 // URL取得
 var get_url = jsdata => {
 	var id_data = jsdata.split(';')[1];
-	var room_id = id_data.split(',')[2].split('/')[1];
+	var room_id = id_data.split(',')[2]
 	var message_id = id_data.split(',')[1];
-	var url = "https://chat.google.com/room/" + room_id + "/" + message_id;
+	var url = "https://chat.google.com/" + room_id + "/" + message_id;
 	return url;
 };
 

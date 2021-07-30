@@ -51,6 +51,9 @@ var put_message_action_button = (e, icon_svg, help_text, on_click) => {
 	};
 	var link_icon = create_icon_html(icon_svg, help_text);
 	var $icon_container = e.querySelector('div[jsname="jpbBj"]');
+	if ($icon_container == null) {
+		return;
+	}
 	$icon_container.insertAdjacentHTML('beforeend', link_icon);
 	var $icon = $icon_container.lastChild;
 	$icon.addEventListener('click', on_click);

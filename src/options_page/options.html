@@ -81,7 +81,54 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="markdown" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>Markdown</h3>
-			<p>各メッセージをMarkdown形式として認識する。</p>
+			<p>各メッセージをMarkdown形式として認識する。記法は原則<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づく。ただし、
+				<ul>
+					<li>記号<code>&lt; &gt;</code>は
+						<select id="markdown_option_meta">
+							<option value="meta">メタ文字</option>
+							<option value="text">テキスト</option>
+						</select>
+						として認識する。
+						<button class="help-button">
+							<div>
+								<b>メタ文字</b>の場合HTMLタグを解釈でき、<br><b>テキスト</b>の場合<code>&lt; &gt;</code>をそのまま解釈する。<br>
+								例えば、<code>&lt;br&gt;</code>は、前者では改行として認識され、後者では<code>&lt;br&gt;</code>のままだと解釈される。
+							</div>
+						</button>
+					</li>
+					<li>Google Chat 書式（<i>斜体</i>・<b>太字</b>・<s>取り消し線</s>）は
+						<select id="markdown_option_style">
+							<option value="valid">有効</option>
+							<option value="invalid">無効</option>
+						</select>とする。
+						<button class="help-button">
+							<div>
+								Google ChatとGFMでは、書式の設定方法が異なる。
+								<table>
+									<tr><th>Google Chat</th><th>GFM</th></tr>
+									<tr><td>_斜体_</td><td>*斜体* _斜体_</td></tr>
+									<tr><td>*太字*</td><td>**太字** __太字__</td></tr>
+									<tr><td>~取り消し線~</td><td>~~取り消し線~~</td></tr>
+								</table>
+								特にアスタリスク記号1つで囲んだ *テキスト* という表記は、両者で解釈が異なる。
+								そのため、 *テキスト* は、ここでGoogle Chat書式を<b>有効</b>とした場合に太字、<b>無効</b>とした場合に斜体として解釈する。
+								なお、Google Chat書式が<b>有効</b>の場合、例えば ~取り消し線~ や ~~取り消し線~~ はいずれも<s>取り消し線</s>と解釈される。
+							</div>
+						</button>
+					</li>
+					<li>コードの書式は
+						<select id="markdown_option_code">
+							<option value="chat">Google Chatの書式とする。</option>
+							<option value="gfm">GFMとする。</option>
+							<option value="highlight">GFMとし、ハイライトもつける。</option>
+						</select>
+						<button class="help-button">
+							<div>`インラインコード` や ```ブロックコード``` の書式を設定する。特にブロックコードにおいて、GFMでは言語名を記述できる。
+							<b>ハイライト</b>は、シンタックスハイライトを有効にする。</div>
+						</button>
+					</li>
+				</ul>
+			</p>
 		</div>
 	</section>
 	<section class="unimplemented">
@@ -230,9 +277,8 @@
 	</section>
 
 	<footer>
-		<p>by Jaity (2021)</p>
+		<p>by <a target="_blank" href="https://nishihara-daiki.github.io/">Nishihara Daiki</a> (2021)</p>
 	</footer>
-	<!-- <script src="../common/jquery-3.6.0.min.js"></script> -->
 	<script src="settings.js"></script>
 </body>
 </html>

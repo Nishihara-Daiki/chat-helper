@@ -55,6 +55,73 @@ p {
 	line-height: 1.2rem;
 }
 
+ul {
+	padding-left: 16px;
+}
+
+li {
+	margin-bottom: 8px;
+}
+
+li select {
+	margin-bottom: 0;
+}
+
+.help-button {
+	margin: 0;
+	padding: 0;
+	border-radius: 50%;
+	display: inline;
+	position: relative;
+}
+
+.help-button::before {
+	content: '？';
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+}
+
+.help-button > :first-child {
+	padding: 8px;
+	width: 256px;
+	background-color: #f0f0f0;
+	border: solid 1px #ccc;
+	position: absolute;
+	top: -10px;
+	left: 20px;
+	display: none;
+	z-index: 1;
+	box-shadow: 0 0 4px #ccc;
+	background-color: #f0f0f0;
+}
+
+.help-button:focus > :first-child {
+	display: inline;
+	text-align: justify;
+	line-height: 1.2rem;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 4px;
+	border-left: solid 1px #ccc;
+	border-right: solid 1px #ccc;
+}
+
+th {
+	text-align: center;
+	border-top: solid 1px #ccc;
+	border-bottom: solid 1px #ccc;
+}
+
+tr:last-child td {
+	border-bottom: solid 1px #ccc;
+}
+
 footer {
 	background-color: #333;
 	color: #ccc
@@ -65,6 +132,10 @@ footer p {
 	padding: 16px;
 	width: 544px;
 	text-align: center;
+}
+
+footer a {
+	color: inherit;
 }
 
 .unimplemented {

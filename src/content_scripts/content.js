@@ -168,6 +168,58 @@ var hold_images = (e, is_open) => {
 	$details.append($inner);
 };
 
+// markdown
+var markdown = (e, is_meta) => {
+	$textbox = e.querySelector('div[jsname="bgckF"]');
+	if ($textbox == null) {
+		return;
+	}
+
+	// textContent = $textbox.textContent;
+	// if (textContent == undefined) {
+	// 	return;
+	// }
+	// if (is_meta) {
+	// 	textContent = textContent.replace('&lt;', '<').replace('&gt;', '>');
+	// }
+	//// marked.setOptions({gfm: false})
+	// marked_text = marked(textContent);
+	// $textbox.innerHTML = marked_text;
+
+
+// 	<span data-cd="hidden" class="jn351e">*</span>
+// 	<b>太字</b>
+// 	<span data-cd="hidden" class="jn351e">*</span>
+// 	<span data-cd="hidden" class="jn351e">_</span>
+// 	<i>斜体</i>
+// 	<span data-cd="hidden" class="jn351e">_</span>
+// 	<span data-cd="hidden" class="jn351e">~</span>
+// 	<s>取り消し線</s>
+// 	<span data-cd="hidden" class="jn351e">~</span>
+// 	<span data-cd="hidden" class="jn351e">`</span>
+// 	<span class="U8d2H">インラインコード</span>
+// 	<span data-cd="hidden" class="jn351e">`</span>
+// **GFMでの太字**
+// <span data-cd="hidden" class="jn351e">```</span>
+// <div class="FMTudf">ブロックコード</div>
+// <span data-cd="hidden" class="jn351e">```</span>
+
+
+	// Google Chat書式（斜体太字取消線、コード）を残すケース
+
+	innerHTML = $textbox.innerHTML;
+	if (innerHTML == undefined) {
+		return;
+	}
+	innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">[*_~`\s]+<\/span>/g, '')
+	if (is_meta) {
+		innerHTML = innerHTML.replace('&lt;', '<').replace('&gt;', '>');
+	}
+	marked.setOptions({breaks: true})
+	marked_text = marked(innerHTML).replaceAll('\n', '')
+	$textbox.innerHTML = marked_text;
+};
+
 var main = () => {
 	chrome.storage.local.get(null, settings => {
 		if (settings["margin_removal"]) {
@@ -212,6 +264,10 @@ var main = () => {
 
 			if (settings["pin_message"]) {
 				put_pinned_button(e);
+			}
+
+			if (settings["markdown"]) {
+				markdown(e, settings["markdown_option"] == 'meta');
 			}
 		};
 

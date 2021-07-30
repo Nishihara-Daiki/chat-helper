@@ -6,7 +6,11 @@
 	"content_scripts": [{
 		"matches": ["*://chat.google.com/*", "*://mail.google.com/chat/*"],
 		"all_frames": true,
-		"js": [ "content_scripts/insQ.min.js", "content_scripts/content.js" ],
+		"js": [
+			"content_scripts/insQ.min.js",
+			"content_scripts/marked.min.js",
+			"content_scripts/content.js"
+		],
 		"css": [ "content_scripts/style.css" ]
 	}],
 	"background": {

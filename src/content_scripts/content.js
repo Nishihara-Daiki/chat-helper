@@ -59,9 +59,14 @@ var put_message_action_button = (e, icon_svg, help_text, on_click) => {
 // URL取得
 var get_url = jsdata => {
 	var id_data = jsdata.split(';')[1];
-	var room_id = id_data.split(',')[2]
+	var type_and_room_id = id_data.split(',')[2].split('/');
+	var type = type_and_room_id[0];
+	var room_id = type_and_room_id[1];
+	if (type == "space") {
+		type = "room";
+	}
 	var message_id = id_data.split(',')[1];
-	var url = "https://chat.google.com/" + room_id + "/" + message_id;
+	var url = "https://chat.google.com/" + type + "/" + room_id + "/" + message_id;
 	return url;
 };
 

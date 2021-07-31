@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 html {
 	font-size: 16px;
 }
@@ -110,12 +112,18 @@ th, td {
 	padding: 4px;
 	border-left: solid 1px #ccc;
 	border-right: solid 1px #ccc;
+	vertical-align: top;
 }
 
 th {
 	text-align: center;
 	border-top: solid 1px #ccc;
 	border-bottom: solid 1px #ccc;
+}
+
+
+tr:not(:last-child) td {
+	border-bottom: dashed 1px #ccc;
 }
 
 tr:last-child td {
@@ -146,5 +154,12 @@ footer a {
 	content: '未実装';
 	padding: 0 8px;
 	color: #ff3333;
+	font-size: 0.7rem;
+}
+
+.beta h3::after {
+	content: 'ベータ版（安定性未検証）';
+	padding: 0 8px;
+	color: #3333cc;
 	font-size: 0.7rem;
 }

@@ -9,9 +9,10 @@
 		"js": [
 			"content_scripts/insQ.min.js",
 			"content_scripts/marked.min.js",
+			"content_scripts/highlight.min.js",
 			"content_scripts/content.js"
 		],
-		"css": [ "content_scripts/style.css" ]
+		"css": [ "content_scripts/hljs-style/default.min.css", "content_scripts/style.css" ]
 	}],
 	"background": {
 		"scripts": []

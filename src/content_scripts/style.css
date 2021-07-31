@@ -1,3 +1,4 @@
+@charset "utf-8";
 
 /* **********************************************
  * メッセージ欄の行間を狭く
@@ -164,6 +165,50 @@ details.hold-images summary {
 	cursor: pointer;
 }
 
+/* **********************************************
+ * Markdown
+ ************************************************ */
+.markdown-code-style-gfm pre {
+	padding: 8px;
+	white-space: pre-wrap;
+	background-color: #f0f0f0;
+}
+
+.markdown h1 {
+	font-size: 1.5rem !important;
+}
+
+.markdown h2 {
+	font-size: 1.2rem !important;
+}
+
+.markdown h3 {
+	font-size: 1.1rem !important;
+}
+
+.markdown h4, .markdown h5, .markdown h6 {
+	font-size: 1rem !important;
+}
+
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+	line-height: normal !important;
+	font-weight: 600 !important;
+}
+
+.markdown ul {
+	padding-left: 20px !important;
+}
+
+.markdown tr {
+	border-collapse: collapse !important;
+}
+
+.markdown td, .markdown th {
+	padding: 4px !important;
+	border: solid 1px #ccc !important;
+}
+
+ 
 /* **********************************************
  * 
  ************************************************ */

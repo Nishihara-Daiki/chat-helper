@@ -169,54 +169,68 @@ var hold_images = (e, is_open) => {
 };
 
 // markdown
-var markdown = (e, is_meta) => {
+var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highlight) => {
 	$textbox = e.querySelector('div[jsname="bgckF"]');
 	if ($textbox == null) {
 		return;
 	}
 
-	// textContent = $textbox.textContent;
-	// if (textContent == undefined) {
-	// 	return;
-	// }
-	// if (is_meta) {
-	// 	textContent = textContent.replace('&lt;', '<').replace('&gt;', '>');
-	// }
-	//// marked.setOptions({gfm: false})
-	// marked_text = marked(textContent);
-	// $textbox.innerHTML = marked_text;
-
-
-// 	<span data-cd="hidden" class="jn351e">*</span>
-// 	<b>太字</b>
-// 	<span data-cd="hidden" class="jn351e">*</span>
-// 	<span data-cd="hidden" class="jn351e">_</span>
-// 	<i>斜体</i>
-// 	<span data-cd="hidden" class="jn351e">_</span>
-// 	<span data-cd="hidden" class="jn351e">~</span>
-// 	<s>取り消し線</s>
-// 	<span data-cd="hidden" class="jn351e">~</span>
-// 	<span data-cd="hidden" class="jn351e">`</span>
-// 	<span class="U8d2H">インラインコード</span>
-// 	<span data-cd="hidden" class="jn351e">`</span>
-// **GFMでの太字**
-// <span data-cd="hidden" class="jn351e">```</span>
-// <div class="FMTudf">ブロックコード</div>
-// <span data-cd="hidden" class="jn351e">```</span>
-
-
-	// Google Chat書式（斜体太字取消線、コード）を残すケース
-
-	innerHTML = $textbox.innerHTML;
+	var innerHTML = $textbox.innerHTML;
 	if (innerHTML == undefined) {
 		return;
 	}
-	innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">[*_~`\s]+<\/span>/g, '')
+
+	// GChatが自動挿入するハイパーリンクを削除
+	innerHTML = innerHTML.replace(/<a href=".*?" target="_blank" dir="ltr" jslog="91781; 11:%.@.0]; track:vis" rel="noopener nofollow noreferrer" class="oiM5sf">(.*?)<\/a>/g, '$1');
+
+	if (is_gchat_style) {
+		innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">[*_~\s]+<\/span>/g, '');
+	} else {
+		innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">([*_~])<\/span>\s*<b>(.*?)<\/b>\s*<span data-cd="hidden" class="jn351e">([*_~])<\/span>/g, '$1$2$3');
+	}
+	switch (code_style) {
+		case 'gchat':
+			innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">[`\s]+<\/span>/g, '');
+			break;
+		case 'gfm':
+			document.body.classList.add('markdown-code-style-gfm');
+			innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">([`\s]+)<\/span>/g, '$1');
+			innerHTML = innerHTML.replace(/<span class="U8d2H">(.*?)<\/span>/g, '$1').replace(/<div class="FMTudf">([\s\S]*?)<\/div>/g, '$1');
+			if (is_langname == false) {
+				innerHTML = innerHTML.replace(/```([^\n])/, '```\n$1');
+			}
+			var renderer = new marked.Renderer();
+			renderer.code = (code, language) => {
+				code = code.replace('&amp;', '&').replace('&amp;', '&').replace('&amp;', '&').replace('&#x27;', "'").replace('&#x60;', '`').replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>');
+				console.log(code);
+				if (hljs.getLanguage(language) == undefined) {
+					code = language + code;
+					language = '';
+				}
+				if (is_highlight) {
+					if (language == '') {
+						code = hljs.highlightAuto(code).value;
+					} else {
+						code = hljs.highlight(code, {language: language}).value;
+					}
+				}
+				code = code.replaceAll('\n', '<br>');
+				return '<pre' + '><code>' + code + '</code></pre>';
+			};
+			marked.setOptions({renderer: renderer,});
+			break;
+		default:
+			console.error('code_style = ' + code_style);
+	}
 	if (is_meta) {
 		innerHTML = innerHTML.replace('&lt;', '<').replace('&gt;', '>');
 	}
 	marked.setOptions({breaks: true})
-	marked_text = marked(innerHTML).replaceAll('\n', '')
+	var marked_text = marked(innerHTML)
+	if (code_style == 'gfm') {
+		marked_text = marked_text.replaceAll('\n', '')
+	}
+	console.log(marked_text);
 	$textbox.innerHTML = marked_text;
 };
 
@@ -245,19 +259,23 @@ var main = () => {
 			document.body.classList.add("hide-file-thumbnail");
 		}
 
-		for_container = e => {
+		if (settings["markdown"]) {
+			document.body.classList.add("markdown");
+		}
+
+		var for_container = e => {
 			if (settings["pin_message"]) {
 				put_pinned_banner(e);
 			}
 		}
 
-		for_thread = e => {
+		var for_thread = e => {
 			if (settings["sort_thread"]) {
 				sort_thread(e);
 			}
 		};
 
-		for_message = e => {
+		var for_message = e => {
 			if (settings["message_url"]) {
 				put_url_button(e);
 			}
@@ -267,11 +285,16 @@ var main = () => {
 			}
 
 			if (settings["markdown"]) {
-				markdown(e, settings["markdown_option"] == 'meta');
+				var is_meta = settings["markdown_option_meta"] == 'meta';
+				var is_gchat_style = settings["markdown_option_style"] == 'valid';
+				var code_style = settings["markdown_option_code"];
+				var is_langname = settings["markdown_option_langname"] == 'on';
+				var is_highlight = settings["markdown_option_highlight"] == 'on';
+				markdown(e, is_meta, is_gchat_style, code_style, is_langname, is_highlight);
 			}
 		};
 
-		for_image = e => {
+		var for_image = e => {
 			if (settings["hold_images"]) {
 				hold_images(e, settings["hold_images_option"] == 'open');
 			}

@@ -77,16 +77,16 @@
 			<p>Slack転送bot等の「from: user-name」を検出してユーザ名とアイコンを表示する。</p>
 		</div>
 	</section>
-	<section class="unimplemented">
+	<section class="beta">
 		<div class="switch"><div class="toggle-switch"><label><input id="markdown" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>Markdown</h3>
-			<p>各メッセージをMarkdown形式として認識する。記法は原則<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づく。ただし、
+			<p>各メッセージをMarkdown形式として認識する。記法は原則、広く使われている<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づく。ただし、
 				<ul>
 					<li>記号<code>&lt; &gt;</code>は
 						<select id="markdown_option_meta">
-							<option value="meta">メタ文字</option>
 							<option value="text">テキスト</option>
+							<option value="meta">メタ文字</option>
 						</select>
 						として認識する。
 						<button class="help-button">
@@ -103,29 +103,66 @@
 						</select>とする。
 						<button class="help-button">
 							<div>
-								Google ChatとGFMでは、書式の設定方法が異なる。
+								設定により、次のように解釈する。
+								<table>
+									<tr><th>有効</th><th>無効</th></tr>
+									<tr><td>_斜体_</td><td>*斜体* _斜体_</td></tr>
+									<tr><td>*太字* **太字** __太字__</td><td>**太字** __太字__</td></tr>
+									<tr><td>~取り消し線~<br>~~取り消し線~~</td><td>~~取り消し線~~</td></tr>
+								</table>
+								<hr>
+								これは、Google ChatとGFMでは、以下のように書式の設定方法が異なることに由来する。
 								<table>
 									<tr><th>Google Chat</th><th>GFM</th></tr>
 									<tr><td>_斜体_</td><td>*斜体* _斜体_</td></tr>
 									<tr><td>*太字*</td><td>**太字** __太字__</td></tr>
 									<tr><td>~取り消し線~</td><td>~~取り消し線~~</td></tr>
 								</table>
-								特にアスタリスク記号1つで囲んだ *テキスト* という表記は、両者で解釈が異なる。
-								そのため、 *テキスト* は、ここでGoogle Chat書式を<b>有効</b>とした場合に太字、<b>無効</b>とした場合に斜体として解釈する。
-								なお、Google Chat書式が<b>有効</b>の場合、例えば ~取り消し線~ や ~~取り消し線~~ はいずれも<s>取り消し線</s>と解釈される。
+								特にアスタリスク記号1つで囲んだ *テキスト* という表記は、両者で解釈が異なるため、ここでどちらを優先するか設定する。
+								*テキスト* は、ここでGoogle Chat書式を<b>有効</b>とした場合に太字、<b>無効</b>とした場合に斜体として解釈する。				
 							</div>
 						</button>
 					</li>
 					<li>コードの書式は
 						<select id="markdown_option_code">
-							<option value="chat">Google Chatの書式とする。</option>
-							<option value="gfm">GFMとする。</option>
-							<option value="highlight">GFMとし、ハイライトもつける。</option>
+							<option value="gfm">GFM</option>
+							<option value="gchat">Google Chatの書式</option>
 						</select>
+						とする。GFMの場合、言語名の認識は
+						<select id="markdown_option_langname">
+							<option value="on">あり</option>
+							<option value="off">なし</option>
+						</select>
+						とし、シンタックスハイライトは
+						<select id="markdown_option_highlight">
+							<option value="on">あり</option>
+							<option value="off">なし</option>
+						</select>
+						とする（<a target="_blank" href="https://github.com/highlightjs/highlight.js/blob/11.1.0/SUPPORTED_LANGUAGES.md">サポート言語の一覧</a>）。
 						<button class="help-button">
-							<div>`インラインコード` や ```ブロックコード``` の書式を設定する。特にブロックコードにおいて、GFMでは言語名を記述できる。
-							<b>ハイライト</b>は、シンタックスハイライトを有効にする。</div>
-						</button>
+							<div>
+								<p>`インラインコード` や ```ブロックコード``` の書式を設定する。</p>
+								<p>コードの書式が、<b>Google Chatの書式</b>の場合はスタイルを変更せず、<b>GFM</b>の場合はスタイル（背景色等）を変更する。</p>
+								<p>
+									言語名の認識とは、ブロックコードの初めに記述された改行までの文字列を、言語名として認識するか、コードの一部として認識するかである。
+									言語名の認識が<b>あり</b>の場合でも、サポート言語の一覧に含まれていない場合は、コードの一部として認識する。詳細例は後述。
+								</p>
+								<p>シンタックスハイライトは、プログラミング言語の可読性の為にキーワード等に色付けする機能である。
+									言語名の認識が<b>なし</b>の場合に、ハイライトを<b>あり</b>にすると、言語を自動認識する。</p>
+								<hr>
+								<p>
+									ブロックコード書式に対し、<b>Google Chatの書式</b>、GFM（言語名の認識<b>あり</b>）、GFM（言語名の認識<b>なし</b>）は例えば次のように解釈する。
+									<table>
+										<tr><th>書式</th><th>GChat</th><th>認識あり</th><th>認識なし</th></tr>
+										<tr><td>```code```</td><td>code</td><td>code</td><td>code</td></tr>
+										<tr><td>```c```</td><td>c</td><td></td><td>c</td></tr>
+										<tr><td>```<br>code<br>```</td><td>code</td><td>code</td><td>code</td></tr>
+										<tr><td>```c<br>code<br>```</td><td>c<br>code</td><td>code</td><td>c<br>code</td></tr>
+									</table>
+									文字列cはサポート言語であるC言語とみなし言語名として認識されるが、文字列codeはサポート言語でないためコードの一部として認識する。
+								</p>
+							</div>
+						</button>						
 					</li>
 				</ul>
 			</p>

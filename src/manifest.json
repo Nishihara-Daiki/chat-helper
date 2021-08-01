@@ -7,9 +7,11 @@
 		"matches": ["*://chat.google.com/*", "*://mail.google.com/chat/*"],
 		"all_frames": true,
 		"js": [
+			"content_scripts/init.js",
 			"content_scripts/insQ.min.js",
 			"content_scripts/marked.min.js",
 			"content_scripts/highlight.min.js",
+			"content_scripts/tex-svg.js",
 			"content_scripts/content.js"
 		],
 		"css": [ "content_scripts/hljs-style/default.min.css", "content_scripts/style.css" ]

@@ -202,7 +202,6 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 			var renderer = new marked.Renderer();
 			renderer.code = (code, language) => {
 				code = code.replace('&amp;', '&').replace('&amp;', '&').replace('&amp;', '&').replace('&#x27;', "'").replace('&#x60;', '`').replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>');
-				console.log(code);
 				if (hljs.getLanguage(language) == undefined) {
 					code = language + code;
 					language = '';
@@ -230,9 +229,29 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	if (code_style == 'gfm') {
 		marked_text = marked_text.replaceAll('\n', '')
 	}
-	console.log(marked_text);
 	$textbox.innerHTML = marked_text;
 };
+
+
+var mathjax = e => {
+	$textbox = e.querySelector('div[jsname="bgckF"]');
+	if ($textbox == null) {
+		return;
+	}
+
+	var innerHTML = $textbox.innerHTML;
+	if (innerHTML == undefined) {
+		return;
+	}
+	innerHTML = innerHTML.replace(/\$\$([\s\S]+?)\$\$/g, (_, text) => {
+		return '<div align="center">' + MathJax.tex2svg(text.replaceAll('<br>', '\n')).querySelector('svg').outerHTML + '</div>';
+	});
+	innerHTML = innerHTML.replace(/\$([^\n]+?)\$/g, (_, text) => MathJax.tex2svg(text).querySelector('svg').outerHTML);
+	if ($textbox.innerHTML != innerHTML) {
+		$textbox.innerHTML= innerHTML;
+	}
+};
+
 
 var main = () => {
 	chrome.storage.local.get(null, settings => {
@@ -291,6 +310,10 @@ var main = () => {
 				var is_langname = settings["markdown_option_langname"] == 'on';
 				var is_highlight = settings["markdown_option_highlight"] == 'on';
 				markdown(e, is_meta, is_gchat_style, code_style, is_langname, is_highlight);
+			}
+
+			if (settings["math"]) {
+				mathjax(e);
 			}
 		};
 

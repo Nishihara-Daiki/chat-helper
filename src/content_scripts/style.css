@@ -195,7 +195,7 @@ details.hold-images summary {
 	font-weight: 600 !important;
 }
 
-.markdown ul {
+.markdown ul, .markdown ol {
 	padding-left: 20px !important;
 }
 

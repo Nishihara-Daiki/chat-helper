@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1>Settings - Chat Helper</h1>
-	<div><p>設定を反映するには、チャットのページの更新が必要です。</p></div>
+	<div><p>設定を反映するには、チャットのページの更新が必要です。未実装の機能は、今後追加予定ですが、変更となる場合があります。</p></div>
 	<div>
 		<button id="turn_on_all">Turn on all</button>
 		<button id="turn_off_all">Turn off all</button>
@@ -17,11 +17,11 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="margin_removal" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>行間を狭く</h3>
-			<p>チャット画面の行間や余白を調整し、多くのメッセージが表示できるようにする。</p>
+			<p>チャット画面の行間や余白を調整し、多くのメッセージが表示できるようにします。</p>
 			<select id="margin_removal_option">
-				<option value="lv1">少し狭くする</option>
-				<option value="lv2">強めに狭くする</option>
-				<option value="lv3">とても狭くする</option>
+				<option value="lv1">少し狭く</option>
+				<option value="lv2">強めに狭く</option>
+				<option value="lv3">とても狭く</option>
 			</select>
 		</div>
 	</section>
@@ -29,14 +29,14 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="bold_name" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>ユーザ名太字</h3>
-			<p>チャット画面のユーザ名を太字にする。初期設定の太さでは、アルファベットは太字になるが、日本語は太字にならないため、太さを上げる。</p>
+			<p>チャット画面のユーザ名を太字にします。初期設定の太さでは、アルファベットは太字になりますが、日本語は太字にならないため、太さを上げます。</p>
 		</div>
 	</section>
 	<section>
 		<div class="switch"><div class="toggle-switch"><label><input id="hide_ogp" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>OGP非表示</h3>
-			<p>URL投稿時のサムネイルを隠し、会話が縦に伸びないようにする。</p>
+			<p>URL投稿時のサムネイルを隠し、会話が縦に伸びないようにします。</p>
 			<select id="hide_ogp_option">
 				<option value="hide_ogp_image">サムネイル画像のみを非表示</option>
 				<option value="hide_ogp_all">サムネイル画像やテキストを含むすべてを非表示</option>
@@ -47,18 +47,20 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="hide_file_thumbnail" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>添付ファイルのサムネイル非表示</h3>
-			<p>添付ファイルのサムネイル画像を隠し、会話が縦に伸びないようにする。</p>
+			<p>添付ファイルのサムネイル画像を隠し、会話が縦に伸びないようにします。</p>
 		</div>
 	</section>
 	<section>
 		<div class="switch"><div class="toggle-switch"><label><input id="hold_images" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>画像折り畳みの有効化</h3>
-			<p>各画像を小さく折りたたむボタンを表示する。</p>
-			<select id="hold_images_option">
-				<option value="open">常に開く</option>
-				<option value="close">常に閉じる</option>
-			</select>
+			<p>各画像を小さく折りたたむボタンを表示します。ロード時の初期状態として
+				<select id="hold_images_option">
+					<option value="open">常に開いた状態</option>
+					<option value="close">常に閉じた状態</option>
+				</select>
+				にします。
+			</p>
 		</div>
 	</section>
 
@@ -67,32 +69,32 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="user_status" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>ステータスの表示</h3>
-			<p>ユーザのステータスを取得し、ユーザ名の隣に表示する。</p>
+			<p>ユーザのステータスを取得し、ユーザ名の隣に表示します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="gss_gchat" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>発言者名の付与</h3>
-			<p>Slack転送bot等の「from: user-name」を検出してユーザ名とアイコンを表示する。</p>
+			<p>Slack転送bot等の「from: user-name」を検出してユーザ名とアイコンを表示します。</p>
 		</div>
 	</section>
 	<section class="beta">
 		<div class="switch"><div class="toggle-switch"><label><input id="markdown" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>Markdown</h3>
-			<p>各メッセージをMarkdown形式として認識する。記法は原則、広く使われている<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づく。ただし、
+			<p>各メッセージをMarkdown形式として認識します。記法は原則、広く使われている<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づきます。ただし、
 				<ul>
 					<li>記号<code>&lt; &gt;</code>は
 						<select id="markdown_option_meta">
 							<option value="text">テキスト</option>
 							<option value="meta">メタ文字</option>
 						</select>
-						として認識する。
+						として認識します。
 						<button class="help-button">
 							<div>
-								<b>メタ文字</b>の場合HTMLタグを解釈でき、<br><b>テキスト</b>の場合<code>&lt; &gt;</code>をそのまま解釈する。<br>
-								例えば、<code>&lt;br&gt;</code>は、前者では改行として認識され、後者では<code>&lt;br&gt;</code>のままだと解釈される。
+								<b>メタ文字</b>の場合HTMLタグを解釈でき、<br><b>テキスト</b>の場合<code>&lt; &gt;</code>をそのまま解釈します。<br>
+								例えば、<code>&lt;br&gt;</code>は、前者では改行として認識し、後者では<code>&lt;br&gt;</code>のままだと解釈します。
 							</div>
 						</button>
 					</li>
@@ -100,10 +102,10 @@
 						<select id="markdown_option_style">
 							<option value="valid">有効</option>
 							<option value="invalid">無効</option>
-						</select>とする。
+						</select>とします。
 						<button class="help-button">
 							<div>
-								設定により、次のように解釈する。
+								設定により、次のように解釈します。
 								<table>
 									<tr><th>有効</th><th>無効</th></tr>
 									<tr><td>_斜体_</td><td>*斜体* _斜体_</td></tr>
@@ -111,15 +113,15 @@
 									<tr><td>~取り消し線~<br>~~取り消し線~~</td><td>~~取り消し線~~</td></tr>
 								</table>
 								<hr>
-								これは、Google ChatとGFMでは、以下のように書式の設定方法が異なることに由来する。
+								これは、Google ChatとGFMでは、以下のように書式の設定方法が異なることに由来します。
 								<table>
 									<tr><th>Google Chat</th><th>GFM</th></tr>
 									<tr><td>_斜体_</td><td>*斜体* _斜体_</td></tr>
 									<tr><td>*太字*</td><td>**太字** __太字__</td></tr>
 									<tr><td>~取り消し線~</td><td>~~取り消し線~~</td></tr>
 								</table>
-								特にアスタリスク記号1つで囲んだ *テキスト* という表記は、両者で解釈が異なるため、ここでどちらを優先するか設定する。
-								*テキスト* は、ここでGoogle Chat書式を<b>有効</b>とした場合に太字、<b>無効</b>とした場合に斜体として解釈する。				
+								特にアスタリスク記号1つで囲んだ *テキスト* という表記は、両者で解釈が異なるため、ここでどちらを優先するか設定します。
+								*テキスト* は、ここでGoogle Chat書式を<b>有効</b>とした場合に太字、<b>無効</b>とした場合に斜体として解釈します。			
 							</div>
 						</button>
 					</li>
@@ -128,7 +130,7 @@
 							<option value="gfm">GFM</option>
 							<option value="gchat">Google Chatの書式</option>
 						</select>
-						とする。GFMの場合、言語名の認識は
+						とします。GFMの場合、言語名の認識は
 						<select id="markdown_option_langname">
 							<option value="on">あり</option>
 							<option value="off">なし</option>
@@ -138,20 +140,20 @@
 							<option value="on">あり</option>
 							<option value="off">なし</option>
 						</select>
-						とする（<a target="_blank" href="https://github.com/highlightjs/highlight.js/blob/11.1.0/SUPPORTED_LANGUAGES.md">サポート言語の一覧</a>）。
+						とします（<a target="_blank" href="https://github.com/highlightjs/highlight.js/blob/11.1.0/SUPPORTED_LANGUAGES.md">サポート言語の一覧</a>）。
 						<button class="help-button">
 							<div>
-								<p>`インラインコード` や ```ブロックコード``` の書式を設定する。</p>
-								<p>コードの書式が、<b>Google Chatの書式</b>の場合はスタイルを変更せず、<b>GFM</b>の場合はスタイル（背景色等）を変更する。</p>
+								<p>`インラインコード` や ```ブロックコード``` の書式を設定します。</p>
+								<p>コードの書式が、<b>Google Chatの書式</b>の場合はスタイルを変更せず、<b>GFM</b>の場合はスタイル（背景色等）を変更します。</p>
 								<p>
-									言語名の認識とは、ブロックコードの初めに記述された改行までの文字列を、言語名として認識するか、コードの一部として認識するかである。
-									言語名の認識が<b>あり</b>の場合でも、サポート言語の一覧に含まれていない場合は、コードの一部として認識する。詳細例は後述。
+									言語名の認識とは、ブロックコードの初めに記述された改行までの文字列を、言語名として認識するか、コードの一部として認識するかのことです。
+									言語名の認識が<b>あり</b>の場合でも、サポート言語の一覧に含まれていない場合は、コードの一部として認識します。詳細例は後述です。
 								</p>
-								<p>シンタックスハイライトは、プログラミング言語の可読性の為にキーワード等に色付けする機能である。
-									言語名の認識が<b>なし</b>の場合に、ハイライトを<b>あり</b>にすると、言語を自動認識する。</p>
+								<p>シンタックスハイライトは、プログラミング言語の可読性の為にキーワード等に色付けする機能です。
+									言語名の認識が<b>なし</b>の場合に、ハイライトを<b>あり</b>にすると、言語を自動認識します。</p>
 								<hr>
 								<p>
-									ブロックコード書式に対し、<b>Google Chatの書式</b>、GFM（言語名の認識<b>あり</b>）、GFM（言語名の認識<b>なし</b>）は例えば次のように解釈する。
+									ブロックコード書式に対し、<b>Google Chatの書式</b>、GFM（言語名の認識<b>あり</b>）、GFM（言語名の認識<b>なし</b>）は例えば次のように解釈します。
 									<table>
 										<tr><th>書式</th><th>GChat</th><th>認識あり</th><th>認識なし</th></tr>
 										<tr><td>```code```</td><td>code</td><td>code</td><td>code</td></tr>
@@ -159,7 +161,7 @@
 										<tr><td>```<br>code<br>```</td><td>code</td><td>code</td><td>code</td></tr>
 										<tr><td>```c<br>code<br>```</td><td>c<br>code</td><td>code</td><td>c<br>code</td></tr>
 									</table>
-									文字列cはサポート言語であるC言語とみなし言語名として認識されるが、文字列codeはサポート言語でないためコードの一部として認識する。
+									文字列cはサポート言語であるC言語とみなし言語名として認識されますが、文字列codeはサポート言語でないためコードの一部として認識します。
 								</p>
 							</div>
 						</button>						
@@ -169,17 +171,24 @@
 		</div>
 	</section>
 	<section class="unimplemented">
+		<div class="switch"><div class="toggle-switch"><label><input id="math" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
+		<div class="details">
+			<h3>数式</h3>
+			<p>TeX形式で書かれた数式をレンダリングします。</p>
+		</div>
+	</section>
+	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="chatroom_link" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>チャットルーム名の検出</h3>
-			<p>メッセージ内の「#chatroom-name」を検出し、リンクを貼る。</p>
+			<p>メッセージ内の「#chatroom-name」を検出し、リンクを貼ります。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="custom_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>カスタム絵文字</h3>
-			<p>「:emoji:」を検出して、絵文字を埋め込む。</p>
+			<p>「:emoji:」を検出して、絵文字を埋め込みます。</p>
 		</div>
 	</section>
 
@@ -188,14 +197,14 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="compact_thread" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>スレッドを畳む</h3>
-			<p>スレッドを最初のメッセージのみ表示し、続くメッセージを折りたたむ。</p>
+			<p>スレッドを最初のメッセージのみ表示し、続くメッセージを折りたたみます。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="sort_thread" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>スレッドの並べ替え</h3>
-			<p>スレッドを最初のメッセージ順に並べかえ、スレッドのリプライが更新されても最下に来ないようにする。</p>
+			<p>スレッドを最初のメッセージの投稿順に並べかえ、スレッドのリプライが更新されても最下に来ないようにします。</p>
 		</div>
 	</section>
 
@@ -204,28 +213,28 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="template" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>テンプレート入力</h3>
-			<p>メッセージ入力欄でのテンプレートを設定する。</p>
+			<p>メッセージ入力欄でのテンプレートを設定します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="auto_save" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>下書き自動保存</h3>
-			<p>入力中のテキストを自動保存し、ページをリロードした際に復元する。</p>
+			<p>入力中のテキストを自動保存し、ページをリロードした際に復元します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="rich_text" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>リッチテキストのリアルタイム反映</h3>
-			<p>テキスト入力中のリッチテキストをリアルタイムで表示する。</p>
+			<p>テキスト入力中のリッチテキストをリアルタイムで表示します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="return_key" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>テキスト入力時の改行および送信キー変更</h3>
-			<p>Reternキーで改行、Ctrl+Returnキーで送信に変更する。</p>
+			<p>Reternキーで改行、Ctrl+Returnキーで送信に変更します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
@@ -237,7 +246,7 @@
 					<option value="5">5</option>
 					<option value="10">10</option>
 				</select>
-				秒後に送信する。
+				秒後に送信します。
 			</p>
 		</div>
 	</section>
@@ -247,14 +256,14 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="message_url" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>URL取得</h3>
-			<p>各メッセージのURLをクリップボードにコピーするボタンを追加する。</p>
+			<p>各メッセージのURLをクリップボードにコピーするボタンを追加します。</p>
 		</div>
 	</section>
 	<section>
 		<div class="switch"><div class="toggle-switch"><label><input id="pin_message" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>メッセージのピン止め</h3>
-			<p>指定したメッセージのURLを上部に表示する。</p>
+			<p>指定したメッセージのURLを上部に表示します。</p>
 		</div>
 	</section>
 
@@ -263,14 +272,14 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="search_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>リアクションの曖昧検索</h3>
-			<p>リアクションの曖昧検索を有効にし、類義語や英語入力に対応する。</p>
+			<p>リアクションの曖昧検索を有効にし、類義語や英語入力に対応します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="freq_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>よく使うリアクションのサジェスト</h3>
-			<p>最近よく使っているリアクションを表示し、素早くリアクションできるようにする。</p>
+			<p>最近よく使っているリアクションを表示し、素早くリアクションできるようにします。</p>
 		</div>
 	</section>
 
@@ -279,21 +288,21 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="sort_chatroom" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>チャットルームの並べ替え</h3>
-			<p>サイドバーのチャットルーム一覧を名前順に並べ替える。</p>
+			<p>サイドバーのチャットルーム一覧を名前順に並べ替えます。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="strong_mute" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>ミュート時の新着表示オフ</h3>
-			<p>ミュート時に新着表示をオフにし、チャットルームが更新されても知らせない。</p>
+			<p>ミュート時に新着表示をオフにし、チャットルームが更新されても知らせません。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="compact_chatname" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>チャット一覧をコンパクトに表示</h3>
-			<p>チャットルームと同様に、小さなアイコンとユーザ名のみを表示する。</p>
+			<p>チャットルームと同様に、小さなアイコンとユーザ名のみを表示します。</p>
 		</div>
 	</section>
 
@@ -302,14 +311,14 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="search_help" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>検索入力補助</h3>
-			<p>検索時の期間指定等の入力ヘルプを表示する。</p>
+			<p>検索時の期間指定等の入力ヘルプを表示します。</p>
 		</div>
 	</section>
 	<section class="unimplemented">
 		<div class="switch"><div class="toggle-switch"><label><input id="search_chatroom" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>検索のチャットルーム指定</h3>
-			<p>検索時にチャットルームを指定できるようにする。</p>
+			<p>検索時にチャットルームを指定できるようにします。</p>
 		</div>
 	</section>
 

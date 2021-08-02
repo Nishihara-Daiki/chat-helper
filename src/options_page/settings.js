@@ -69,6 +69,14 @@ window.onload = () => {
 		set_all(false);
 	});
 
+	// 設定・メモリの削除	
+	document.getElementById("reset_memory").addEventListener('click', e => {
+		if (window.confirm("設定およびメモリをリセットしますか？\n拡張機能インストール時の状態に戻します。")) {
+			chrome.storage.local.clear();
+			location.reload();
+		}
+	});
+
 	// リアクション履歴の削除	
 	document.getElementById("delete_reaction_history").addEventListener('click', e => {
 		if (window.confirm("リアクション履歴を削除しますか？")) {
@@ -80,6 +88,10 @@ window.onload = () => {
 	document.getElementById("popup_reaction_history").addEventListener('click', e => {
 		chrome.storage.local.get("reaction_freq_memory", items => {
 			var emoji_to_freq = items["reaction_freq_memory"];
+			if (emoji_to_freq == undefined) {
+				alert('no history');
+				return;
+			}
 			var all_emoji = [...Object.keys(emoji_to_freq)];
 			all_emoji.sort((a, b) => emoji_to_freq[b] - emoji_to_freq[a]);
 			var s = '';

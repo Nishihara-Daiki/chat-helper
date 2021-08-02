@@ -294,7 +294,6 @@ var freq_reaction = e => {
 		while ($container.firstChild) {
 			$container.removeChild($container.firstChild);
 		}
-		console.log(top_n);
 		top_n.forEach(emoji => {
 			var innerHTML = get_emoji_html(emoji);
 			$container.insertAdjacentHTML('beforeend', innerHTML);
@@ -312,7 +311,7 @@ var set_reaction_counter = e => {
 			set_storage('reaction_freq_memory', emoji2freq);
 		});
 	});
-}
+};
 
 
 var main = () => {
@@ -407,29 +406,19 @@ var main = () => {
 		};
 
 		// チャット欄コンテナごと
-		var CONTAINER_QUERY = 'div[jsname="mUnMUb"]';
-		insertionQ(CONTAINER_QUERY).every(for_container);
-		[...document.querySelectorAll(CONTAINER_QUERY)].forEach(for_container);
+		set_insertion('div[jsname="mUnMUb"]', for_container);
 
 		// スレッドごと
-		var THREAD_QUERY = 'c-wiz[jsname="JT2yOd"]';
-		insertionQ(THREAD_QUERY).every(for_thread);
-		[...document.querySelectorAll(THREAD_QUERY)].forEach(for_thread);
+		set_insertion('c-wiz[jsname="JT2yOd"]', for_thread);
 
 		// メッセージごと
-		var MESSAGE_QUERY = 'div[jsname="Ne3sFf"][class~="nF6pT"]';
-		insertionQ(MESSAGE_QUERY).every(for_message);
-		[...document.querySelectorAll(MESSAGE_QUERY)].forEach(for_message);
+		set_insertion('div[jsname="Ne3sFf"][class~="nF6pT"]', for_message);
 
 		// 画像ごと
-		var IMAGE_QUERY = 'div[jsname="KUOBaf"]';
-		insertionQ(IMAGE_QUERY).every(for_image);
-		[...document.querySelectorAll(IMAGE_QUERY)].forEach(for_image);
+		set_insertion('div[jsname="KUOBaf"]', for_image);
 
 		// リアクションポップアップごと
-		var REACTION_POPUP_QUERY = 'c-wiz[jsname="ewwDod"]';
-		insertionQ(REACTION_POPUP_QUERY).every(for_reaction_popup);
-		[...document.querySelectorAll(REACTION_POPUP_QUERY)].forEach(for_reaction_popup);
+		set_insertion('c-wiz[jsname="ewwDod"]', for_reaction_popup);
 
 		// リアクションごと
 		set_insertion('div[jsname="vnVdbf"]', for_reaction);

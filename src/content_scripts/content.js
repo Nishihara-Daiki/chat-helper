@@ -250,10 +250,25 @@ var mathjax = e => {
 	if (innerHTML == undefined) {
 		return;
 	}
-	innerHTML = innerHTML.replace(/\$\$([\s\S]+?)\$\$/g, (_, text) => {
-		return '<div align="center">' + MathJax.tex2svg(text.replaceAll('<br>', '\n')).querySelector('svg').outerHTML + '</div>';
+	innerHTML = innerHTML.replaceAll('<br>', '\n')
+	innerHTML = innerHTML.replace(/(<\/?[^>]+>)|([^<]+)/g, (_, tag, content) => {	// HTMLタグ部とタグ内コンテンツ部にヒット
+		if (tag !== undefined) {	// タグの場合は変更しないのでそのまま返す
+			return tag;
+		}
+		if (content !== undefined) {	// コンテンツの場合は数式表現に置換
+			content = content.replace(/\$\$([\s\S]+?)\$\$/g, (_, text) => {
+				text = text.replaceAll('&lt;', '<').replaceAll('&gt;', '>')
+				return '<div align="center">' + MathJax.tex2svg(text).querySelector('svg').outerHTML + '</div>';
+			});
+			content = content.replace(/\$([^\n]+?)\$/g, (_, text) => {
+				text = text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+				return MathJax.tex2svg(text).querySelector('svg').outerHTML;
+			});
+			return content;
+		}
+		console.error('error');	// ここに来ることはないはず
+		return ' ERROR ';
 	});
-	innerHTML = innerHTML.replace(/\$([^\n]+?)\$/g, (_, text) => MathJax.tex2svg(text).querySelector('svg').outerHTML);
 	if ($textbox.innerHTML != innerHTML) {
 		$textbox.innerHTML = innerHTML;
 	}

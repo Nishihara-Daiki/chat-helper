@@ -63,15 +63,22 @@ window.onload = () => {
 
 	document.getElementById("turn_on_all").onclick = () => {
 		set_all(true);
-	}
+	};
 
 	document.getElementById("turn_off_all").onclick = () => {
 		set_all(false);
-	}
+	};
+
+	document.getElementById("delete_reaction_history").addEventListener('click', () => {
+		set_storage("reaction_freq_memory", {});
+	})
 }
 
 // デバッグ用
-function storage() {
+function storage(clear=false) {
+	if (clear) {
+		chrome.storage.local.clear();
+	}
 	chrome.storage.local.get(null, items => {
 		console.log(items);
 	});

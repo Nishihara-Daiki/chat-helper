@@ -158,17 +158,17 @@ var hold_images = (e, is_open) => {
 	if (e.hasChildNodes() == false) {
 		return;
 	}
-	$wrapper = e.firstChild;
-	$inner = $wrapper.firstChild;
-	aria_label = $inner.firstChild.getAttribute('aria-label');
+	var $wrapper = e.firstChild;
+	var $inner = $wrapper.firstChild;
+	var aria_label = $inner.firstChild.getAttribute('aria-label');
 	if (typeof(aria_label) != "string" || aria_label.indexOf('画像') == -1) {
 		return;
 	}
 
-	$details = document.createElement('details');
+	var $details = document.createElement('details');
 	$details.open = is_open;
 	$details.classList.add('hold-images');
-	$summary = document.createElement('summary');
+	var $summary = document.createElement('summary');
 	$summary.textContent = "画像";
 	$details.append($summary);
 	$wrapper.append($details);
@@ -177,7 +177,7 @@ var hold_images = (e, is_open) => {
 
 // markdown
 var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highlight) => {
-	$textbox = e.querySelector('div[jsname="bgckF"]');
+	var $textbox = e.querySelector('div[jsname="bgckF"]');
 	if ($textbox == null) {
 		return;
 	}
@@ -241,7 +241,7 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 
 
 var mathjax = e => {
-	$textbox = e.querySelector('div[jsname="bgckF"]');
+	var $textbox = e.querySelector('div[jsname="bgckF"]');
 	if ($textbox == null) {
 		return;
 	}
@@ -255,9 +255,64 @@ var mathjax = e => {
 	});
 	innerHTML = innerHTML.replace(/\$([^\n]+?)\$/g, (_, text) => MathJax.tex2svg(text).querySelector('svg').outerHTML);
 	if ($textbox.innerHTML != innerHTML) {
-		$textbox.innerHTML= innerHTML;
+		$textbox.innerHTML = innerHTML;
 	}
 };
+
+// 絵文字のHTMLを得る
+var get_emoji_html = (emoji) => {
+	var data = window.emoji_to_codepoint[emoji];
+	var label = data.label;
+	var codepoint = data.img;
+	var html = '<div role="menuitem" class="U26fgb mUbCce fKz7Od dtPjgd M9Bg4d" jscontroller="RCdJKe" jsaction="click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; focus:AHmuwe; blur:O22p3e; contextmenu:mg9Pef;touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc(preventMouseEvents=true|preventDefault=true); touchcancel:JMtRjd;" jsshadow="" jsname="vnVdbf" aria-label="' + label + '" aria-disabled="false" tabindex="-1" data-emoji="' + emoji + '"><div class="VTBa7b MbhUzd" jsname="ksKsZd"></div><span jsslot="" class="xjKiLb"><span class="Ce1Y1c" style="top: -12px"><img src="//ssl.gstatic.com/dynamite/emoji/png/128/emoji_' + codepoint + '.png" aria-label="' + emoji + '" class="obOBrf" data-emo="' + emoji + '"></span></span></div>';
+	return html;
+}
+
+// よく使うリアクション
+var freq_reaction = e => {
+	var $fixed_bar = e.querySelector('div[jsname="OPTywb"]');
+	var $container = $fixed_bar.querySelector('div[jsname="me23c"]');
+	if ($container.hasChildNodes() == false) {
+		setTimeout(() => freq_reaction(e), 20);
+		return;
+	}
+
+	var all_emoji = [...Object.keys(window.emoji_to_codepoint)];
+
+	chrome.storage.local.get('reaction_freq_memory', items => {
+		var emoji2freq = items['reaction_freq_memory'] || {};
+		all_emoji.forEach(emoji => {
+			if (emoji2freq[emoji] == undefined) {
+				emoji2freq[emoji] = 0;
+			}
+		});
+		set_storage('reaction_freq_memory', emoji2freq);
+
+		var top_n = all_emoji.sort((a, b) => emoji2freq[b] - emoji2freq[a]).slice(0, 9);
+
+		// 元の絵文字ボタンを削除
+		while ($container.firstChild) {
+			$container.removeChild($container.firstChild);
+		}
+		console.log(top_n);
+		top_n.forEach(emoji => {
+			var innerHTML = get_emoji_html(emoji);
+			$container.insertAdjacentHTML('beforeend', innerHTML);
+		});
+	});
+};
+
+// リアクション押下を監視する
+var set_reaction_counter = e => {
+	var emoji = e.getAttribute('data-emoji');
+	e.addEventListener('click', event => {
+		chrome.storage.local.get('reaction_freq_memory', items => {
+			var emoji2freq = items['reaction_freq_memory'];
+			emoji2freq[emoji] += 1;
+			set_storage('reaction_freq_memory', emoji2freq);
+		});
+	});
+}
 
 
 var main = () => {
@@ -334,6 +389,23 @@ var main = () => {
 			}
 		}
 
+		var for_reaction_popup = e => {
+			if (settings["freq_reaction"]) {
+				freq_reaction(e);
+			}
+		};
+
+		var for_reaction = e => {
+			if (settings["freq_reaction"]) {
+				set_reaction_counter(e);
+			}
+		};
+
+		var set_insertion = (query, callback) => {
+			insertionQ(query).every(callback);
+			[...document.querySelectorAll(query)].forEach(callback);
+		};
+
 		// チャット欄コンテナごと
 		var CONTAINER_QUERY = 'div[jsname="mUnMUb"]';
 		insertionQ(CONTAINER_QUERY).every(for_container);
@@ -353,6 +425,14 @@ var main = () => {
 		var IMAGE_QUERY = 'div[jsname="KUOBaf"]';
 		insertionQ(IMAGE_QUERY).every(for_image);
 		[...document.querySelectorAll(IMAGE_QUERY)].forEach(for_image);
+
+		// リアクションポップアップごと
+		var REACTION_POPUP_QUERY = 'c-wiz[jsname="ewwDod"]';
+		insertionQ(REACTION_POPUP_QUERY).every(for_reaction_popup);
+		[...document.querySelectorAll(REACTION_POPUP_QUERY)].forEach(for_reaction_popup);
+
+		// リアクションごと
+		set_insertion('div[jsname="vnVdbf"]', for_reaction);
 	});
 };
 

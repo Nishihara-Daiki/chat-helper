@@ -12,6 +12,7 @@
 			"content_scripts/marked.min.js",
 			"content_scripts/highlight.min.js",
 			"content_scripts/tex-svg.js",
+			"content_scripts/emoji_to_codepoint.js",
 			"content_scripts/content.js"
 		],
 		"css": [ "content_scripts/hljs-style/default.min.css", "content_scripts/style.css" ]

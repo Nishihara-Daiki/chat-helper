@@ -3,23 +3,31 @@ html {
 }
 
 body {
-	padding: 16px;
-	min-width: 256px;
-}
-
-input[type="checkbox"] {
-	margin-right: 8px;
-	width: 16px;
-	height: 16px;
-	display: inline-block;
-}
-
-ul {
 	padding: 0;
+	min-width: 256px;	
+	background-color: #f0f0f0;
 }
 
-li {
-	font-size: 1rem;
-	list-style: none;
-	line-height: 2rem;
+h1 {
+	padding: 0 16px;
+}
+
+p {
+	margin-bottom: 16px;
+	padding: 0 16px;
+}
+
+footer {
+	background-color: #333;
+	color: #ccc
+}
+
+footer p {
+	margin: 0 auto;
+	padding: 16px;
+	text-align: center;
+}
+
+footer a {
+	color: inherit;
 }

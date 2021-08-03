@@ -5,6 +5,16 @@
  ************************************************ */
 
 /* ************* 1 ************* */
+/* margin-top: -10px; を解除 */
+.margin-removal-1 .jGyvbd .jO0Dzb .COKy9b {
+	margin-top: 0 !important;
+}
+
+/* フラットの場合のユーザアイコン単位のメッセージ */
+.margin-removal-1 .WQKmIb .ajCeRb:not(.zzVqCe) {
+	padding-top: 6px !important;
+}
+
 /* ユーザアイコン単位のメッセージ */
 .margin-removal-1 .nF6pT {
 	padding-top: 8px !important;
@@ -31,6 +41,16 @@
 }
 
 /* ************* 2 ************* */
+/* margin-top: -10px; を解除 */
+.margin-removal-2 .jGyvbd .jO0Dzb .COKy9b {
+	margin-top: 0 !important;
+}
+
+/* フラットの場合のユーザアイコン単位のメッセージ */
+.margin-removal-2 .WQKmIb .ajCeRb:not(.zzVqCe) {
+	padding-top: 4px !important;
+}
+
 /* ユーザアイコン単位のメッセージ */
 .margin-removal-2 .nF6pT {
 	padding-top: 4px !important;
@@ -60,6 +80,16 @@
 	margin-right: 8px !important;
 }
 /* ************* 3 ************* */
+/* margin-top: -10px; を解除 */
+.margin-removal-3 .jGyvbd .jO0Dzb .COKy9b {
+	margin-top: 0 !important;
+}
+
+/* フラットの場合のユーザアイコン単位のメッセージ */
+.margin-removal-3 .WQKmIb .ajCeRb:not(.zzVqCe) {
+	padding-top: 2px !important;
+}
+
 /* ユーザアイコン単位のメッセージ */
 .margin-removal-3 .nF6pT {
 	padding-top: 2px !important;
@@ -180,38 +210,51 @@ details.hold-images summary {
 	color: #ff3333 !important;
 }
 
-.markdown h1 {
+.markdown div[jsname="bgckF"] h1 {
 	font-size: 1.5rem !important;
 }
 
-.markdown h2 {
+.markdown div[jsname="bgckF"] h2 {
 	font-size: 1.2rem !important;
 }
 
-.markdown h3 {
+.markdown div[jsname="bgckF"] h3 {
 	font-size: 1.1rem !important;
 }
 
-.markdown h4, .markdown h5, .markdown h6 {
+.markdown div[jsname="bgckF"] h4,
+.markdown div[jsname="bgckF"] h5,
+.markdown div[jsname="bgckF"] h6 {
 	font-size: 1rem !important;
 }
 
-.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+.markdown div[jsname="bgckF"] h1,
+.markdown div[jsname="bgckF"] h2,
+.markdown div[jsname="bgckF"] h3,
+.markdown div[jsname="bgckF"] h4,
+.markdown div[jsname="bgckF"] h5,
+.markdown div[jsname="bgckF"] h6 {
 	line-height: normal !important;
 	font-weight: 600 !important;
 }
 
-.markdown ul, .markdown ol {
+.markdown div[jsname="bgckF"] ul,
+.markdown div[jsname="bgckF"] ol {
 	padding-left: 20px !important;
 }
 
-.markdown tr {
+.markdown div[jsname="bgckF"] tr {
 	border-collapse: collapse !important;
 }
 
-.markdown td, .markdown th {
+.markdown div[jsname="bgckF"] td,
+.markdown div[jsname="bgckF"] th {
 	padding: 4px !important;
 	border: solid 1px #ccc !important;
+}
+
+.markdown div[jsname="bgckF"] p:not(:last-child) {
+	margin-bottom: 8px !important;
 }
 
  

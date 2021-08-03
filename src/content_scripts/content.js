@@ -223,7 +223,7 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 				code = code.replaceAll('\n', '<br>');
 				return '<pre' + '><code>' + code + '</code></pre>';
 			};
-			marked.setOptions({renderer: renderer,});
+			marked.setOptions({renderer: renderer});
 			break;
 		default:
 			console.error('code_style = ' + code_style);
@@ -231,12 +231,13 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	if (is_meta) {
 		innerHTML = innerHTML.replace('&lt;', '<').replace('&gt;', '>');
 	}
-	marked.setOptions({breaks: true})
+	marked.setOptions({headerIds: false, breaks: true})
 	var marked_text = marked(innerHTML)
 	if (code_style == 'gfm') {
 		marked_text = marked_text.replaceAll('\n', '')
 	}
 	$textbox.innerHTML = marked_text;
+	$textbox.querySelectorAll('a').forEach(e => e.setAttribute('target', '_blank'));
 };
 
 

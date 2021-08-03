@@ -83,14 +83,21 @@ var put_url_button = e => {
 
 
 // URLを埋め込む
-var embed_url = url => {
+var embed_url = pins => {
+	var pin = pins[0];	// 現在は１つしかピンしない
+	var url = pin.url;
+	var user = pin.user;
+	var time = new Date(pin.time);
+	var text = pin.text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+
+	var datetext = "" + time.getMonth() + "/" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes();
 	var $pinned_banner = document.getElementById('pinned_banner');
 	if ($pinned_banner != null) {
 		$pinned_banner.classList.remove('none');
 	}
 	var $content = document.getElementById('pinned_banner_content');
 	if ($content != null) {
-		$content.innerHTML = '<a href="' + url + '">' + url + '</a>';
+		$content.innerHTML = '<a href="' + url + '"><span class="user">' + user + '</span>(' + datetext + '): ' + text + '</a>';
 	}
 };
 
@@ -98,14 +105,23 @@ var embed_url = url => {
 var put_pinned_button = e => {
 	var jsdata = e.getAttribute("jsdata");
 	var url = get_url(jsdata);
+	var user_name = e.parentElement.firstChild.querySelector('div[jsname="A9KrYd"] .njhDLd').textContent;
+	var top_message_of_thread = e.parentElement.firstChild.querySelector('div[jsname="bgckF"]').textContent;
+	var time = e.parentElement.firstChild.getAttribute('data-created');
+	time = +time;	// str to int
+	var pins = [{"url": url, "user": user_name, "time": time, "text": top_message_of_thread}];
 	var icon_svg = '<svg viewBox="0 0 16 16" class=" f8lxbf waxfdf ZnfIwf"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.3 3.2L9.3 7.4L10.35 8.80002H5.64999L6.7 7.4L6.7 3.2L9.3 3.2ZM12 10V9L10.5 7V3.14286C10.5 2.51167 9.98833 2 9.35714 2H6.64286C6.01167 2 5.5 2.51167 5.5 3.14286L5.5 7L4 9V10H7.4L7.4 14L8 15L8.6 14L8.6 10H12Z"></path></svg>';
+
 	put_message_action_button(e, icon_svg, 'ピン止め', e => {
-		embed_url(url);
+		embed_url(pins);
 		chrome.storage.local.get('pin_memory', items => {
-			var id2url = items['pin_memory'];
+			var id2pins = items['pin_memory'];
+			if (id2pins == undefined) {
+				id2pins = {};
+			}
 			var room_id = get_room_id();
-			id2url[room_id] = url;
-			set_storage('pin_memory', id2url);
+			id2pins[room_id] = pins;
+			set_storage('pin_memory', id2pins);
 		});
 	});
 };
@@ -115,32 +131,25 @@ var put_pinned_banner = e => {
 	var room_id = get_room_id();
 
 	var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
-	var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content"></p></div>';
+	var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content" class="pinned_banner_content"></p></div>';
 	e.insertAdjacentHTML('afterbegin', banner);
 
 	var $unpin_icon = document.getElementById('unpin_icon');
 	$unpin_icon.addEventListener('click', e => {	// ピン止め解除ボタン
 		document.getElementById('pinned_banner').classList.add('none');
 		chrome.storage.local.get('pin_memory', items => {
-			var id2url = items['pin_memory'];
-			id2url[room_id] = null;
-			set_storage('pin_memory', id2url);
-		})
+			var id2pins = items['pin_memory'];
+			delete id2pins[room_id]
+			set_storage('pin_memory', id2pins);
+		});
 	});
 
 	chrome.storage.local.get('pin_memory', items => {
-		var id2url = items['pin_memory'];
-		if (id2url === undefined) {	// ストレージに何も登録されていなかったら
-			set_storage('pin_memory', {[room_id]: null});
-		}
-		else {
-			url = id2url[room_id];
-			if (url === undefined) {	// ストレージに id2url はあるが、今回のルームは登録されていなかったら
-				id2url[room_id] = null;
-				set_storage('pin_memory', id2url);
-			}
-			else if (url != null) {		// url が登録されていたら
-				embed_url(url);
+		var id2pins = items['pin_memory'];
+		if (id2pins !== undefined) {
+			var pins = id2pins[room_id];
+			if (pins != undefined) {
+				embed_url(pins);
 			}
 		}
 	});
@@ -330,7 +339,27 @@ var set_reaction_counter = e => {
 };
 
 
+// 仕様変更時の対応用
+var init = () => {
+	chrome.storage.local.get(null, settings => {
+		var id2pins = settings['pin_memory'];
+		if (id2pins != undefined) {
+			Object.keys(id2pins).forEach(id => {
+				var pins = id2pins[id]
+				if (typeof(pins) == 'string') {
+					pins = [{"url": pins, "user": '', "time": '', "text": '※アップデートにより仕様が変更されました。ここをクリックした後、ピンを一度解除し、再ピンしてください。'}];
+					id2pins[id] = pins;
+				}
+			});
+			set_storage('pin_memory', id2pins);
+		}
+	});
+};
+
+
 var main = () => {
+	init();
+
 	chrome.storage.local.get(null, settings => {
 		if (settings["margin_removal"]) {
 			switch(settings["margin_removal_option"]) {

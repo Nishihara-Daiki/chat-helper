@@ -82,6 +82,17 @@ var put_url_button = e => {
 };
 
 
+var get_time_string = datetime => {
+	var days = ['日', '月', '火', '水', '木', '金', '土'];
+
+	var month = datetime.getMonth() + 1;
+	var date = datetime.getDate();
+	var day = days[datetime.getDay()];
+	var hours = datetime.getHours();
+	var minutes = datetime.getMinutes();
+	return "" + month + "/" + date + "(" + day + ") " + hours + ":" + minutes;
+};
+
 // URLを埋め込む
 var embed_url = pins => {
 	var pin = pins[0];	// 現在は１つしかピンしない
@@ -89,15 +100,14 @@ var embed_url = pins => {
 	var user = pin.user;
 	var time = new Date(pin.time);
 	var text = pin.text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
-
-	var datetext = "" + time.getMonth() + "/" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes();
+	var datetext = get_time_string(time);
 	var $pinned_banner = document.getElementById('pinned_banner');
 	if ($pinned_banner != null) {
 		$pinned_banner.classList.remove('none');
 	}
 	var $content = document.getElementById('pinned_banner_content');
 	if ($content != null) {
-		$content.innerHTML = '<a href="' + url + '"><span class="user">' + user + '</span>(' + datetext + '): ' + text + '</a>';
+		$content.innerHTML = '<a href="' + url + '"><span class="user">' + user + '</span> ' + datetext + ' : ' + text + '</a>';
 	}
 };
 

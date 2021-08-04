@@ -264,8 +264,8 @@ details.hold-images summary {
 	border: solid 1px #ccc !important;
 }
 
-.markdown div[jsname="bgckF"] p:not(:last-child) {
-	margin-bottom: 8px !important;
+.markdown div[jsname="bgckF"] p:not(:first-child) {
+	margin-top: 8px !important;
 }
 
  

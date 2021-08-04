@@ -116,10 +116,10 @@ var put_pinned_button = e => {
 	var jsdata = e.getAttribute("jsdata");
 	var url = get_url(jsdata);
 	var user_name = e.parentElement.firstChild.querySelector('div[jsname="A9KrYd"] .njhDLd').textContent;
-	var top_message_of_thread = e.parentElement.firstChild.querySelector('div[jsname="bgckF"]').textContent;
+	var text = e.querySelector('div[jsname="bgckF"]').textContent;
 	var time = e.parentElement.firstChild.getAttribute('data-created');
 	time = +time;	// str to int
-	var pins = [{"url": url, "user": user_name, "time": time, "text": top_message_of_thread}];
+	var pins = [{"url": url, "user": user_name, "time": time, "text": text}];
 	var icon_svg = '<svg viewBox="0 0 16 16" class=" f8lxbf waxfdf ZnfIwf"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.3 3.2L9.3 7.4L10.35 8.80002H5.64999L6.7 7.4L6.7 3.2L9.3 3.2ZM12 10V9L10.5 7V3.14286C10.5 2.51167 9.98833 2 9.35714 2H6.64286C6.01167 2 5.5 2.51167 5.5 3.14286L5.5 7L4 9V10H7.4L7.4 14L8 15L8.6 14L8.6 10H12Z"></path></svg>';
 
 	put_message_action_button(e, icon_svg, 'ピン止め', e => {

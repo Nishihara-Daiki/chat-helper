@@ -89,7 +89,7 @@ var get_time_string = datetime => {
 	var date = datetime.getDate();
 	var day = days[datetime.getDay()];
 	var hours = datetime.getHours();
-	var minutes = datetime.getMinutes();
+	var minutes = ("0" + datetime.getMinutes()).slice(-2);
 	return "" + month + "/" + date + "(" + day + ") " + hours + ":" + minutes;
 };
 

@@ -34,6 +34,7 @@ URL投稿時のサムネイルを隠し、会話が縦に伸びないように�
 
 ### Markdown
 各メッセージをMarkdown形式として認識します。設定により、シンタックスハイライト（ソースコードの色付け）をつけることもできます。
+[シンタックスハイライトのサポート言語一覧](https://github.com/highlightjs/highlight.js/blob/11.1.0/SUPPORTED_LANGUAGES.md)
 |変更前|変更後（シンタックスハイライトあり）|
 |--|--|
 |![](./images/markdown-before.png)|![](./images/markdown-after.png)|

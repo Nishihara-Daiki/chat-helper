@@ -48,6 +48,13 @@ gitで管理している方は、pullして手順4.にお進みください。
 [更新履歴のページ](./docs/history.md)を参照してください。
 
 
+## ライセンス
+[CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/deed.ja) 2021 Nishihara Daiki
+
+すなわち、再配布が可能ですが営利目的には使用できません。
+個人使用や共有に制限はありません。
+
+
 ## 使用ライブラリ
 開発にあたり、以下のライブラリを使用しています。
 

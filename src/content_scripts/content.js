@@ -207,7 +207,16 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	}
 
 	// GChatが自動挿入するハイパーリンクを削除
-	innerHTML = innerHTML.replace(/<a href=".*?" target="_blank" dir="ltr" jslog="91781; 11:%.@.0]; track:vis" rel="noopener nofollow noreferrer" class="oiM5sf">(.*?)<\/a>/g, '$1');
+	innerHTML = innerHTML.replace(/<a href="(.*?)" target="_blank" dir="ltr" jslog="91781; 11:%.@.0]; track:vis" rel="noopener nofollow noreferrer" class="oiM5sf">(.*?)<\/a>/g, '[$2]($1)');
+	var renderer = new marked.Renderer();
+	renderer.link = (href, title, text) => {
+		console.log(href)
+		if (/^\[\S*\]\(\S+\)$/.test(href)) {
+		console.log(0)
+		href = href.replace(/^\[\S*\]\((\S+)\)$/, '$1')
+		}
+		return '<a href="' + href + '" title="' + title + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
+	};
 
 	if (is_gchat_style) {
 		innerHTML = innerHTML.replace(/<span data-cd="hidden" class="jn351e">[*_~\s]+<\/span>/g, '');
@@ -225,7 +234,6 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 			if (is_langname == false) {
 				innerHTML = innerHTML.replace(/```([^\n])/, '```\n$1');
 			}
-			var renderer = new marked.Renderer();
 			renderer.code = (code, language) => {
 				code = code.replace('&amp;', '&').replace('&amp;', '&').replace('&amp;', '&').replace('&#x27;', "'").replace('&#x60;', '`').replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>');
 				if (hljs.getLanguage(language) == undefined) {
@@ -242,7 +250,6 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 				code = code.replaceAll('\n', '<br>');
 				return '<pre' + '><code>' + code + '</code></pre>';
 			};
-			marked.setOptions({renderer: renderer});
 			break;
 		default:
 			console.error('code_style = ' + code_style);
@@ -250,13 +257,12 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	if (is_meta) {
 		innerHTML = innerHTML.replace('&lt;', '<').replace('&gt;', '>');
 	}
-	marked.setOptions({headerIds: false, breaks: true})
+	marked.setOptions({headerIds: false, breaks: true, renderer: renderer})
 	var marked_text = marked(innerHTML)
 	if (code_style == 'gfm') {
 		marked_text = marked_text.replaceAll('\n', '')
 	}
 	$textbox.innerHTML = marked_text;
-	$textbox.querySelectorAll('a').forEach(e => e.setAttribute('target', '_blank'));
 };
 
 

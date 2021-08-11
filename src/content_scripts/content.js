@@ -109,7 +109,7 @@ var embed_url = pins => {
 	var url = pin.url;
 	var user = pin.user;
 	var time = new Date(pin.time);
-	var text = pin.text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+	var text = escapeHTML(pin.text);
 	var datetext = get_time_string(time);
 	var $pinned_banner = document.getElementById('pinned_banner');
 	if ($pinned_banner != null) {
@@ -248,7 +248,7 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 				innerHTML = innerHTML.replace(/```([^\n])/, '```\n$1');
 			}
 			renderer.code = (code, language) => {
-				code = code.replace('&amp;', '&').replace('&amp;', '&').replace('&amp;', '&').replace('&#x27;', "'").replace('&#x60;', '`').replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>');
+				code = unescapeHTML(code)
 				if (hljs.getLanguage(language) == undefined) {
 					code = language + code;
 					language = '';

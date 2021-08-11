@@ -14,6 +14,16 @@ function execCopy(string){
 	return r;
 }
 
+function escapeHTML(str) {
+	return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function unescapeHTML(str) {
+	var div = document.createElement("div");
+	div.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/ /g, "&nbsp;").replace(/\r/g, "&#13;").replace(/\n/g, "&#10;");
+	return div.textContent || div.innerText;
+}
+
 var set_storage = (key, value) => {
 	chrome.storage.local.set({[key]: value});
 };
@@ -167,7 +177,10 @@ var put_pinned_banner = e => {
 
 // メッセージコピーボタン
 var put_copy_button = e => {
-	var text = e.querySelector('div[jsname="bgckF"]').textContent;
+	var innerHTML = e.querySelector('div[jsname="bgckF"]').innerHTML;
+	var text = innerHTML.replace(/<img [^>]*data-emoji="([^">]*)"[^>]*>/g, '$1');
+	text = text.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''); // remove HTML tag
+	text = unescapeHTML(text);
 	var icon_svg = '<svg viewBox="0 0 24 24" class=" f8lxbf waxfdf ZnfIwf"><path d="M0 0h24v24H0z" fill="none"></path><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>';
 	put_message_action_button(e, icon_svg, 'メッセージをコピー', e => {execCopy(text)});
 };

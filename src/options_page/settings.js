@@ -3,6 +3,13 @@ var set_storage = (key, value) => {
 	chrome.storage.local.set({[key]: value});
 }
 
+
+var set_version = () => {
+	var $version = document.getElementById('version');
+	var version = chrome.runtime.getManifest().version;
+	$version.textContent = version;
+}
+
 // input[type="checkbox"] 要素の id をすべて取ってくる
 var get_keys = () => {
 	return [...document.querySelectorAll('input[type="checkbox"]')].map(e => {return e.id});
@@ -23,6 +30,7 @@ var set_all = value => {
 };
 
 window.onload = () => {
+	set_version();
 	chrome.storage.local.get(null, items => {
 		// トグルスイッチボタンの設定
 		get_keys().forEach(key => {

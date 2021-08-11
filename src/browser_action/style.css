@@ -12,6 +12,16 @@ h1 {
 	padding: 0 16px;
 }
 
+.version {
+	padding-left: 16px;
+	font-weight: normal;
+	font-size: 1rem;
+}
+
+.version::before {
+	content: 'v ';
+}
+
 p {
 	margin-bottom: 16px;
 	padding: 0 16px;

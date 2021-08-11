@@ -305,7 +305,7 @@ var get_emoji_html = (emoji) => {
 	var data = window.emoji_to_codepoint[emoji];
 	var label = data.label;
 	var codepoint = data.img;
-	var html = '<div role="menuitem" class="U26fgb mUbCce fKz7Od dtPjgd M9Bg4d" jscontroller="RCdJKe" jsaction="click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; focus:AHmuwe; blur:O22p3e; contextmenu:mg9Pef;touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc(preventMouseEvents=true|preventDefault=true); touchcancel:JMtRjd;" jsshadow="" jsname="vnVdbf" aria-label="' + label + '" aria-disabled="false" tabindex="-1" data-emoji="' + emoji + '"><div class="VTBa7b MbhUzd" jsname="ksKsZd"></div><span jsslot="" class="xjKiLb"><span class="Ce1Y1c" style="top: -12px"><img src="//ssl.gstatic.com/dynamite/emoji/png/128/emoji_' + codepoint + '.png" aria-label="' + emoji + '" class="obOBrf" data-emo="' + emoji + '"></span></span></div>';
+	var html = '<div role="menuitem" class="U26fgb mUbCce fKz7Od dtPjgd M9Bg4d" jscontroller="RCdJKe" jsaction="click:cOuCgd; mousedown:UX7yZ; mouseup:lbsD7e; mouseenter:tfO1Yc; mouseleave:JywGue; focus:AHmuwe; blur:O22p3e; contextmenu:mg9Pef;touchstart:p6p2H; touchmove:FwuNnf; touchend:yfqBxc(preventMouseEvents=true|preventDefault=true); touchcancel:JMtRjd;" jsshadow="" jsname="vnVdbf" aria-label="' + emoji + '" aria-disabled="false" tabindex="0" data-emoji="' + emoji + '" data-tooltip="' + label + '"><div class="VTBa7b MbhUzd" jsname="ksKsZd"></div><span jsslot="" class="xjKiLb"><span class="Ce1Y1c" style="top: -12px"><img data-emoji="' + emoji + '" class="iiJ4W" alt="' + emoji + '" aria-label="' + emoji + '" src="https://fonts.gstatic.com/s/e/notoemoji/13.1.1/' + codepoint + '/32.png"></span></span></div>';
 	return html;
 }
 

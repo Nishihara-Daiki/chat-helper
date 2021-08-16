@@ -107,6 +107,17 @@ var get_time_string = datetime => {
 	return "" + month + "/" + date + "(" + day + ") " + hours + ":" + minutes;
 };
 
+
+// メッセージテキストを取得（絵文字も取得可能）
+var get_message_text = e => {
+	var innerHTML = e.querySelector('div[jsname="bgckF"]').innerHTML;
+	var text = innerHTML.replace(/<img [^>]*data-emoji="([^">]*)"[^>]*>/g, '$1');
+	text = text.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''); // remove HTML tag
+	text = unescapeHTML(text);
+	return text;
+};
+
+
 // ピン更新
 var update_pins = (pins, option) => {
 	var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
@@ -169,7 +180,7 @@ var put_pinned_button = e => {
 	var jsdata = e.getAttribute("jsdata");
 	var url = get_url(jsdata);
 	var user_name = e.querySelector('div[jsname="A9KrYd"] .njhDLd').textContent;
-	var text = e.querySelector('div[jsname="bgckF"]').textContent;
+	var text = get_message_text(e);
 	var time = e.getAttribute('data-created');
 	time = +time;	// str to int
 	var pin = {"url": url, "user": user_name, "time": time, "text": text};
@@ -206,27 +217,8 @@ var put_pinned_button = e => {
 // ピン止めした時の上のバナー初期化
 var put_pinned_banner = e => {
 	var room_id = get_room_id();
-
-	// var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
-	// var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content" class="pinned_banner_content"></p></div>';
-	var banner = 
-		'<div class="pinned-banner none" id="pinned_banner"> \
-			<input type="checkbox" id="toggle_pin_fold"> \
-			<label class="pinned-banner-button" id="pinned_banner_button" for="toggle_pin_fold"></label> \
-			<ul class="pin-container" id="pin_container"> \
-			</ul> \
-		</div>';
+	var banner = '<div class="pinned-banner none" id="pinned_banner"><input type="checkbox" id="toggle_pin_fold"><label class="pinned-banner-button" id="pinned_banner_button" for="toggle_pin_fold"></label><ul class="pin-container" id="pin_container"></ul></div>';
 	e.insertAdjacentHTML('beforeend', banner);
-
-	// var $unpin_icon = document.getElementById('unpin_icon');
-	// $unpin_icon.addEventListener('click', e => {	// ピン止め解除ボタン
-	// 	document.getElementById('pinned_banner').classList.add('none');
-	// 	chrome.storage.local.get('pin_memory', items => {
-	// 		var id2pins = items['pin_memory'];
-	// 		delete id2pins[room_id]
-	// 		set_storage('pin_memory', id2pins);
-	// 	});
-	// });
 
 	chrome.storage.local.get(null, items => {
 		var id2pins = items['pin_memory'];
@@ -246,10 +238,7 @@ var put_pinned_banner = e => {
 
 // メッセージコピーボタン
 var put_copy_button = e => {
-	var innerHTML = e.querySelector('div[jsname="bgckF"]').innerHTML;
-	var text = innerHTML.replace(/<img [^>]*data-emoji="([^">]*)"[^>]*>/g, '$1');
-	text = text.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''); // remove HTML tag
-	text = unescapeHTML(text);
+	var text = get_message_text(e);
 	var icon_svg = '<svg viewBox="0 0 24 24" class=" f8lxbf waxfdf ZnfIwf"><path d="M0 0h24v24H0z" fill="none"></path><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>';
 	put_message_action_button(e, icon_svg, 'メッセージをコピー', e => {execCopy(text)});
 };

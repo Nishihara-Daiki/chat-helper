@@ -154,7 +154,7 @@
 /* **********************************************
  * メッセージピン止めの上部バナー
  ************************************************ */
-.pinned-banner {
+/* .pinned-banner {
 	padding: 8px 0;
 	width: 100%;
 	height: 20px;
@@ -194,7 +194,103 @@
 
 .none {
 	display: none;
+} */
+
+.pinned-banner {
+	padding: 8px 0;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	color: #666;
+	border-bottom: solid 1px #eee;
+	z-index: 1;
+	overflow: hidden;
+	white-space: nowrap;
+	display: flex;
 }
+
+.pinned-banner svg {
+	margin-right: 4px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.pinned-banner input[type="checkbox"] {
+	display: none;
+}
+
+.pinned-banner input[type="checkbox"] ~ ul li.hide {
+	height: 0;
+	opacity: 0;
+	transition: all ease .1s;
+}
+
+.pinned-banner input[type="checkbox"]:checked ~ ul li.hide {
+	height: auto;
+	opacity: 1;
+}
+
+.pinned-banner li {
+	line-height: 1.5rem;
+	list-style: none;
+}
+
+.pinned-banner-button {
+	margin-left: 24px;
+	width: 32px;
+	flex: none;
+	position: relative;
+	cursor: pointer;
+	display: block;
+}
+
+.pinned-banner-button:hover {
+	background-color: #eee;
+}
+
+.pinned-banner-button::before {
+	content: '';
+	padding: 3px;
+	border-right: solid 2px #5f6368;
+	border-bottom: solid 2px #5f6368;
+	display: block;
+	position: absolute;
+	left: 12px;
+	bottom: 12px;
+	transform: rotate(45deg);
+	transition: all ease 0.2s;
+}
+
+.pinned-banner input[type="checkbox"]:checked ~ .pinned-banner-button::before {
+	transform: rotate(-135deg);
+	bottom: 8px;
+}
+
+.pin-container {
+	margin-top: -2px;
+	flex: auto;
+}
+
+.pin-content {
+	position: relative;
+	font-size: 0.85rem;
+	top: -2px;
+}
+
+.pinned-banner span.user {
+	font-weight: 600;
+}
+
+.pinned-banner a {
+	color: inherit;
+}
+
+.none {
+	display: none;
+}
+
 
 
 /* **********************************************

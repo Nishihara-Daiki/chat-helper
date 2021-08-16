@@ -28,6 +28,10 @@ var set_storage = (key, value) => {
 	chrome.storage.local.set({[key]: value});
 };
 
+var remove_storage = key => {
+	chrome.storage.local.remove(key);
+};
+
 var get_room_id = () => {
 	$cwiz = document.querySelector('c-wiz');
 	if ($cwiz != null) {
@@ -151,7 +155,16 @@ var put_pinned_banner = e => {
 	var room_id = get_room_id();
 
 	var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
-	var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content" class="pinned_banner_content"></p></div>';
+	// var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content" class="pinned_banner_content"></p></div>';
+	var banner = 
+		'<div class="pinned-banner" id="pinned_banner"> \
+			<input type="checkbox" id="toggle-pin-fold"> \
+			<label class="pinned-banner-button" for="toggle-pin-fold"></label> \
+			<ul class="pin-container"> \
+				<li><span>' + unpin_icon + '</span><span class="pin-content"><a href="https://chat.google.com/room/room-id/thread-id"><span class="user">名前</span>内容</a></span></li> \
+				<li class="hide"><span>' + unpin_icon + '</span><span class="pin-content"><a href="https://chat.google.com/room/room-id/thread-id"><span class="user">名前</span>隠している内容</a></span></li> \
+			</ul> \
+		</div>';
 	e.insertAdjacentHTML('afterbegin', banner);
 
 	var $unpin_icon = document.getElementById('unpin_icon');
@@ -383,6 +396,9 @@ var init = () => {
 			set_storage('pin_memory', id2pins);
 		}
 	});
+
+	// 改名等で不要になったキーの削除
+	// remove_storage('')
 };
 
 

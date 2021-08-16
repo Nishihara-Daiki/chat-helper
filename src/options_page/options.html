@@ -266,6 +266,57 @@
 			<h3>メッセージのピン止め</h3>
 			<p>指定したメッセージの情報を上部に表示します。クリックするとメッセージに飛びます。<br>
 				※「スレッド返信」を使用している場合、ピン止めされるリンクはスレッドのリンクになりますが、表示されるテキストはピンしたメッセージから取得します。</p>
+			<p>
+				最大表示数は
+				<select id="pin_message_option_maxpin">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+				</select>
+				で、最大固定数は
+				<select id="pin_message_option_maxshow">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+				とし、表示順は
+				<select id="pin_message_option_orderkey">
+					<option value="pin">ピンに登録した順</option>
+					<option value="timestamp">メッセージのタイムスタンプ順</option>
+				</select>
+				で
+				<select id="pin_message_option_order">
+					<option value="ascend">昇順</option>
+					<option value="descend">降順</option>
+				</select>
+				とします。
+				<button class="help-button">
+					<div>
+						<p>最大表示数は、折り畳みを解除した状態で表示される最大のピン数を指定します。</p>
+						<p>最大固定数は、折り畳んだ状態で表示される最大のピン数を指定します。</p>
+						<p>最大表示数を超えたピンは、表示されなくなりますが保存され続けます。</p>
+					</div>
+				</button>
+			</p>
 		</div>
 	</section>
 	<section>

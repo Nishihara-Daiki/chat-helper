@@ -41,8 +41,8 @@
 	position: absolute;
 	top: -2px;
 	left: -2px;
-	transition: left linear 80ms;
-	background-color: #1a73e8;
+	transition: all linear 80ms;
+	background-color: #fff;
 }
 
 .toggle-switch input {
@@ -51,6 +51,7 @@
 
 .toggle-switch input:checked + span::after {
 	left: 14px;
+	background-color: #1a73e8;
 }
 
 .toggle-switch input:checked + span::before {

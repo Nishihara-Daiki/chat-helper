@@ -107,21 +107,60 @@ var get_time_string = datetime => {
 	return "" + month + "/" + date + "(" + day + ") " + hours + ":" + minutes;
 };
 
-// URLを埋め込む
-var embed_url = pins => {
-	var pin = pins[0];	// 現在は１つしかピンしない
-	var url = pin.url;
-	var user = pin.user;
-	var time = new Date(pin.time);
-	var text = escapeHTML(pin.text);
-	var datetext = get_time_string(time);
+// ピン更新
+var update_pins = (pins, option) => {
+	var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
+
 	var $pinned_banner = document.getElementById('pinned_banner');
-	if ($pinned_banner != null) {
-		$pinned_banner.classList.remove('none');
+	if (pins.length == 0) {
+		$pinned_banner.classList.add('none');
+		return;
 	}
-	var $content = document.getElementById('pinned_banner_content');
-	if ($content != null) {
-		$content.innerHTML = '<a href="' + url + '"><span class="user">' + user + '</span> ' + datetext + ' : ' + text + '</a>';
+	$pinned_banner.classList.remove('none');
+
+	pins = pins.slice(-option.maxpins); // 最新のmaxpins個だけ切り取る
+	if (option['orderkey'] == 'timestamp') {
+		pins.sort((a, b) => a.time - b.time);
+	}
+	if (option['order'] == 'descend') {
+		pins = pins.reverse();
+	}
+	var $content = document.getElementById('pin_container');
+	while ($content.firstChild) {
+		$content.removeChild($content.firstChild);
+	}
+
+	for (var i = 0; i < pins.length; i++) {
+		var pin = pins[i];
+		let url = pin.url;
+		var user = pin.user;
+		var time = new Date(pin.time);
+		var text = escapeHTML(pin.text);
+		var datetext = get_time_string(time);
+
+		var $li = document.createElement('li');
+		$li.innerHTML = '<span>' + unpin_icon + '</span><span class="pin-content"><a href="' + url + '"><span class="user">' + user + '</span> ' + datetext + ' : ' + text + '</a></span>'
+
+		if (i >= option.maxdisplays) {
+			$li.classList.add('hide');
+		}
+
+		$li.querySelector('span').addEventListener('click', event => { // ピン止め解除ボタン
+			chrome.storage.local.get('pin_memory', items => {
+				var id2pins = items['pin_memory'];
+				var room_id = get_room_id();
+				id2pins[room_id] = id2pins[room_id].filter(p => p.url !== url);
+				set_storage('pin_memory', id2pins);
+				update_pins(id2pins[room_id], option);
+			});
+		});
+
+		$content.append($li);
+	}
+	if (pins.length > option.maxdisplays) {
+		document.getElementById('pinned_banner_button').classList.remove('hide');
+	} else {
+		document.getElementById('pinned_banner_button').classList.add('hide');
 	}
 };
 
@@ -133,18 +172,32 @@ var put_pinned_button = e => {
 	var text = e.querySelector('div[jsname="bgckF"]').textContent;
 	var time = e.getAttribute('data-created');
 	time = +time;	// str to int
-	var pins = [{"url": url, "user": user_name, "time": time, "text": text}];
+	var pin = {"url": url, "user": user_name, "time": time, "text": text};
 	var icon_svg = '<svg viewBox="0 0 16 16" class=" f8lxbf waxfdf ZnfIwf"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.3 3.2L9.3 7.4L10.35 8.80002H5.64999L6.7 7.4L6.7 3.2L9.3 3.2ZM12 10V9L10.5 7V3.14286C10.5 2.51167 9.98833 2 9.35714 2H6.64286C6.01167 2 5.5 2.51167 5.5 3.14286L5.5 7L4 9V10H7.4L7.4 14L8 15L8.6 14L8.6 10H12Z"></path></svg>';
 
 	put_message_action_button(e, icon_svg, 'ピン止め', e => {
-		embed_url(pins);
-		chrome.storage.local.get('pin_memory', items => {
+		chrome.storage.local.get(null, items => {
 			var id2pins = items['pin_memory'];
 			if (id2pins == undefined) {
 				id2pins = {};
 			}
 			var room_id = get_room_id();
+			if (id2pins[room_id] == undefined) {
+				id2pins[room_id] = [];
+			}
+			var pins = id2pins[room_id];
+			pins = pins.filter(p => p.url !== pin.url);
+			pins.push(pin);
+			if (items['pin_message_option_excess'] == 'delete') {
+				pins = pins.slice(-items['pin_message_option_maxpin']); // 最新のmaxpins個だけ切り取る
+			}
 			id2pins[room_id] = pins;
+			update_pins(pins, {
+				'maxpins':     items['pin_message_option_maxpin'],
+				'maxdisplays': items['pin_message_option_maxdisplays'],
+				'orderkey':    items['pin_message_option_orderkey'],
+				'order':       items['pin_message_option_order']
+			});
 			set_storage('pin_memory', id2pins);
 		});
 	});
@@ -154,35 +207,38 @@ var put_pinned_button = e => {
 var put_pinned_banner = e => {
 	var room_id = get_room_id();
 
-	var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
+	// var unpin_icon = '<svg viewBox="0 0 24 24" class="GfYBMd o50UJf"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3.22L3.42 1.81L21.8 20.2L20.39 21.61L14.78 16H13V21L12 22L11 21V16H5V14L7 11V8.22L2 3.22ZM9 10.22V11.75L7.5 14H12.78L9 10.22Z"></path><path d="M19 14.5693L15 10.5671V4H8.43647L7.33397 2.8969C7.69315 2.35734 8.30687 2 9 2H15C16.11 2 17 2.89 17 4V11L19 14V14.5693Z"></path></svg>';
 	// var banner = '<div class="pinned-banner none" id="pinned_banner"><span id="unpin_icon">' + unpin_icon + '</span><span id="pinned_banner_content" class="pinned_banner_content"></p></div>';
 	var banner = 
-		'<div class="pinned-banner" id="pinned_banner"> \
-			<input type="checkbox" id="toggle-pin-fold"> \
-			<label class="pinned-banner-button" for="toggle-pin-fold"></label> \
-			<ul class="pin-container"> \
-				<li><span>' + unpin_icon + '</span><span class="pin-content"><a href="https://chat.google.com/room/room-id/thread-id"><span class="user">名前</span>内容</a></span></li> \
-				<li class="hide"><span>' + unpin_icon + '</span><span class="pin-content"><a href="https://chat.google.com/room/room-id/thread-id"><span class="user">名前</span>隠している内容</a></span></li> \
+		'<div class="pinned-banner none" id="pinned_banner"> \
+			<input type="checkbox" id="toggle_pin_fold"> \
+			<label class="pinned-banner-button" id="pinned_banner_button" for="toggle_pin_fold"></label> \
+			<ul class="pin-container" id="pin_container"> \
 			</ul> \
 		</div>';
-	e.insertAdjacentHTML('afterbegin', banner);
+	e.insertAdjacentHTML('beforeend', banner);
 
-	var $unpin_icon = document.getElementById('unpin_icon');
-	$unpin_icon.addEventListener('click', e => {	// ピン止め解除ボタン
-		document.getElementById('pinned_banner').classList.add('none');
-		chrome.storage.local.get('pin_memory', items => {
-			var id2pins = items['pin_memory'];
-			delete id2pins[room_id]
-			set_storage('pin_memory', id2pins);
-		});
-	});
+	// var $unpin_icon = document.getElementById('unpin_icon');
+	// $unpin_icon.addEventListener('click', e => {	// ピン止め解除ボタン
+	// 	document.getElementById('pinned_banner').classList.add('none');
+	// 	chrome.storage.local.get('pin_memory', items => {
+	// 		var id2pins = items['pin_memory'];
+	// 		delete id2pins[room_id]
+	// 		set_storage('pin_memory', id2pins);
+	// 	});
+	// });
 
-	chrome.storage.local.get('pin_memory', items => {
+	chrome.storage.local.get(null, items => {
 		var id2pins = items['pin_memory'];
 		if (id2pins !== undefined) {
 			var pins = id2pins[room_id];
 			if (pins != undefined) {
-				embed_url(pins);
+				update_pins(pins, {
+					'maxpins':     items['pin_message_option_maxpin'],
+					'maxdisplays': items['pin_message_option_maxdisplays'],
+					'orderkey':    items['pin_message_option_orderkey'],
+					'order':       items['pin_message_option_order']
+				});
 			}
 		}
 	});
@@ -236,9 +292,7 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	innerHTML = innerHTML.replace(/<a href="(.*?)" target="_blank" dir="ltr" jslog="91781; 11:%.@.0]; track:vis" rel="noopener nofollow noreferrer" class="oiM5sf">(.*?)<\/a>/g, '[$2]($1)');
 	var renderer = new marked.Renderer();
 	renderer.link = (href, title, text) => {
-		console.log(href)
 		if (/^\[\S*\]\(\S+\)$/.test(href)) {
-		console.log(0)
 		href = href.replace(/^\[\S*\]\((\S+)\)$/, '$1')
 		}
 		return '<a href="' + href + '" title="' + title + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
@@ -398,7 +452,7 @@ var init = () => {
 	});
 
 	// 改名等で不要になったキーの削除
-	// remove_storage('')
+	// remove_storage('pin_message_option_maxshow')
 };
 
 

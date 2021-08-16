@@ -114,6 +114,12 @@ window.onload = () => {
 			alert(s);
 		});
 	});
+
+	document.getElementById("delete_all_pins").addEventListener('click', e => {
+		if (window.confirm("全てのピンを削除しますか？")) {
+			set_storage("pin_memory", {});
+		}
+	});
 }
 
 // デバッグ用

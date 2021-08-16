@@ -267,7 +267,7 @@
 			<p>指定したメッセージの情報を上部に表示します。クリックするとメッセージに飛びます。<br>
 				※「スレッド返信」を使用している場合、ピン止めされるリンクはスレッドのリンクになりますが、表示されるテキストはピンしたメッセージから取得します。</p>
 			<p>
-				最大表示数は
+				最大ピン数は
 				<select id="pin_message_option_maxpin">
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -290,13 +290,11 @@
 					<option value="19">19</option>
 					<option value="20">20</option>
 				</select>
-				で、最大固定数は
-				<select id="pin_message_option_maxshow">
+				で、最大表示数は
+				<select id="pin_message_option_maxdisplays">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
 				</select>
 				とし、表示順は
 				<select id="pin_message_option_orderkey">
@@ -311,12 +309,20 @@
 				とします。
 				<button class="help-button">
 					<div>
-						<p>最大表示数は、折り畳みを解除した状態で表示される最大のピン数を指定します。</p>
-						<p>最大固定数は、折り畳んだ状態で表示される最大のピン数を指定します。</p>
-						<p>最大表示数を超えたピンは、表示されなくなりますが保存され続けます。</p>
+						<p>最大ピン数は、折り畳みを解除した状態で表示される最大のピン数を指定します。</p>
+						<p>最大表示数は、折り畳んだ状態で表示される最大のピン数を指定します。</p>
 					</div>
 				</button>
 			</p>
+			<p>
+				最大ピン数を超えた場合、
+				<select id="pin_message_option_excess">
+					<option value="delete">古いピンから削除</option>
+					<option value="keep">全てのピンを保持</option>
+				</select>
+				します。
+			</p>
+			<button id="delete_all_pins">全てのピンの削除</button>
 		</div>
 	</section>
 	<section>

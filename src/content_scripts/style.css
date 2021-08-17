@@ -197,7 +197,7 @@
 } */
 
 .pinned-banner {
-	padding: 8px 0;
+	padding: 8px 0 2px;
 	width: 100%;
 	position: absolute;
 	top: 0;

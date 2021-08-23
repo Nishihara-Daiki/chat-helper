@@ -50,7 +50,7 @@ section {
 	padding: 4px 16px 4px 0;
 }
 
-select {
+select, input[type="text"] {
 	margin-bottom: 8px;
 	border: none;
 	border-bottom: solid 1px #ccc;
@@ -139,6 +139,16 @@ tr:not(:last-child) td {
 tr:last-child td {
 	border-bottom: solid 1px #ccc;
 }
+
+code.block-code {
+	padding-left: 16px;
+	display: block;
+}
+
+input.favorite-reactions {
+	min-width: 300px;
+}
+
 
 footer {
 	background-color: #333;

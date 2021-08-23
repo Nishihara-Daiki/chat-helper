@@ -20,6 +20,11 @@ var get_opt_keys = () => {
 	return [...document.querySelectorAll('select')].map(e => {return e.id});
 }
 
+// input[type="text"] 要素の id をすべて取ってくる
+var get_free_text_keys = () => {
+	return [...document.querySelectorAll('input[type="text"]')].map(e => {return e.id});
+}
+
 // すべての設定を (boolean) value にする
 var set_all = value => {
 	get_keys().forEach(key => {
@@ -67,6 +72,23 @@ window.onload = () => {
 				set_storage(key, value);
 			};
 		});
+
+		// inputテキスト
+		get_free_text_keys().forEach(key => {
+			$input = document.getElementById(key);
+			value = items[key];
+			if (value === undefined) {
+				value = $input.value;
+			}
+			$input.value = value;
+			set_storage(key, value);
+
+			$input.oninput = e => {
+				let key = e.currentTarget.id;
+				let value = e.currentTarget.value;
+				set_storage(key, value);
+			}
+		})
 	});
 
 	document.getElementById("turn_on_all").addEventListener('click', e => {
@@ -115,6 +137,7 @@ window.onload = () => {
 		});
 	});
 
+	// 全てのピンを削除
 	document.getElementById("delete_all_pins").addEventListener('click', e => {
 		if (window.confirm("全てのピンを削除しますか？")) {
 			set_storage("pin_memory", {});

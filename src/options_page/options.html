@@ -345,7 +345,13 @@
 		<div class="switch"><div class="toggle-switch"><label><input id="freq_reaction" type="checkbox"><span class="toggle-switch-body"></span></label></div></div>
 		<div class="details">
 			<h3>よく使うリアクションのサジェスト</h3>
-			<p>ユーザのリアクション使用履歴に基づき、よく使われるリアクションの欄を、ユーザが実際によく使うリアクションに変更します。設定がオンの状態でのみ使用履歴を記録します。</p>
+			<p>ユーザのリアクション使用履歴に基づき、よく使われるリアクションの欄を、ユーザが実際によく使うリアクションに変更します。設定がオンの状態でのみ使用履歴を記録します。
+				表示行数は
+			<select id="freq_reaction_line_num">
+				<option value="1">1行</option>
+				<option value="2">2行</option>
+			</select>とします。
+			</p>
 			<button id="popup_reaction_history">リアクション使用履歴の確認</button>
 			<button id="delete_reaction_history">リアクション使用履歴の削除</button>
 		</div>

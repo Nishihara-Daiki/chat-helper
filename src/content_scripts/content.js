@@ -389,7 +389,7 @@ var freq_reaction = e => {
 
 	var all_emoji = [...Object.keys(window.emoji_to_codepoint)];
 
-	chrome.storage.local.get('reaction_freq_memory', items => {
+	chrome.storage.local.get(null, items => {
 		var emoji2freq = items['reaction_freq_memory'] || {};
 		all_emoji.forEach(emoji => {
 			if (emoji2freq[emoji] == undefined) {
@@ -398,7 +398,13 @@ var freq_reaction = e => {
 		});
 		set_storage('reaction_freq_memory', emoji2freq);
 
-		var top_n = all_emoji.sort((a, b) => emoji2freq[b] - emoji2freq[a]).slice(0, 9);
+		let line_num = +items['freq_reaction_line_num'] || 1;
+		if (line_num == 2) {
+			e.style.height = '296px';
+			e.style.top = '-296px';
+		}
+		let reaction_num = 9 * line_num;
+		var top_n = all_emoji.sort((a, b) => emoji2freq[b] - emoji2freq[a]).slice(0, reaction_num);
 
 		// 元の絵文字ボタンを削除
 		while ($container.firstChild) {
@@ -474,6 +480,13 @@ var main = () => {
 
 		if (settings["markdown"]) {
 			document.body.classList.add("markdown");
+		}
+
+		if (settings["freq_reaction"]) {
+			switch (settings["freq_reaction_line_num"]) {
+				case "1": break;
+				case "2": document.body.classList.add("freq-reaction-2"); break;
+			}
 		}
 
 		var for_container = e => {

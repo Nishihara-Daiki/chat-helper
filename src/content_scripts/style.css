@@ -154,48 +154,6 @@
 /* **********************************************
  * メッセージピン止めの上部バナー
  ************************************************ */
-/* .pinned-banner {
-	padding: 8px 0;
-	width: 100%;
-	height: 20px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: #fff;
-	color: #666;
-	border-bottom: solid 1px #eee;
-	z-index: 1;
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 0.8rem;
-}
-
-.pinned-banner > :first-child {
-	margin-left: 32px;
-}
-
-.pinned-banner svg {
-	margin-right: 4px;
-	height: 16px;
-	cursor: pointer;
-}
-
-.pinned-banner .pinned_banner_content {
-	position: relative;
-	top: -2px;
-}
-
-.pinned-banner span.user {
-	font-weight: 600;
-}
-.pinned-banner a {
-	color: inherit;
-}
-
-.none {
-	display: none;
-} */
-
 .pinned-banner {
 	padding: 8px 0 2px;
 	width: 100%;
@@ -370,6 +328,18 @@ details.hold-images summary {
 	margin-top: 8px !important;
 }
 
+ 
+/* **********************************************
+ * リアクション
+ ************************************************ */
+.freq-reaction-2 .WmHgje {
+	min-height: 72px !important;
+}
+
+.freq-reaction-2 .aEUhWd.iWO5td.eO2Zfd .wAf7Pd {
+	max-height: 296px !important;
+}
+ 
  
 /* **********************************************
  * 

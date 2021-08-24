@@ -142,6 +142,7 @@ tr:last-child td {
 
 code.block-code {
 	padding-left: 16px;
+	background-color: #e0e0e0;
 	display: block;
 }
 

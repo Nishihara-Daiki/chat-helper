@@ -281,6 +281,11 @@ details.hold-images summary {
 	color: #ff3333 !important;
 }
 
+.markdown-code-style-gfm blockquote {
+	padding-left: 8px;
+	border-left: solid 4px #ddd;
+}
+
 .markdown div[jsname="bgckF"] h1 {
 	font-size: 1.5rem !important;
 }

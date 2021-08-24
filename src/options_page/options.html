@@ -86,8 +86,14 @@
 			<h3>Markdown</h3>
 			<p>各メッセージをMarkdown形式として認識します。記法は原則、広く使われている<a target="_blank" href="https://github.github.com/gfm/">GFM</a>に基づきます。ただし、
 				<ul>
-					<li>記号<code>&lt; &gt;</code>は
+					<li>記号 <code>&lt; &gt;</code> は
 						<select id="markdown_option_meta">
+							<option value="text">テキスト</option>
+							<option value="meta">メタ文字</option>
+						</select>
+						として認識します。
+						ただし、行頭の <code>&gt;</code> は
+						<select id="markdown_option_bos_meta">
 							<option value="text">テキスト</option>
 							<option value="meta">メタ文字</option>
 						</select>
@@ -95,7 +101,44 @@
 						<button class="help-button">
 							<div>
 								<b>メタ文字</b>の場合HTMLタグを解釈でき、<br><b>テキスト</b>の場合<code>&lt; &gt;</code>をそのまま解釈します。<br>
-								例えば、<code>&lt;br&gt;</code>は、前者では改行として認識し、後者では<code>&lt;br&gt;</code>のままだと解釈します。
+								例えば、<code>&lt;br&gt;</code>は、前者では改行として認識し、後者では<code>&lt;br&gt;</code>のままだと解釈します。<br>
+								また、行頭の <code>&gt;</code> は、Markdown形式において引用ブロックを指しますが、<b>テキスト</b>とすると、
+								引用ブロックとして認識しなくなるため、行頭の <code>&gt;</code> のみ<b>メタ文字</b>とすることができます。
+							</div>
+						</button>
+					</li>
+					<li>引用ブロックを示す記号 <code>&gt;</code> が2行目以降に付いていない場合、
+						<select id="markdown_option_quote_break">
+							<option value="true">引用ブロック</option>
+							<option value="false">新たな段落</option>
+						</select>とする。
+						<button class="help-button">
+							<div>
+								<p>以下のように行頭に記号 <code>&gt;</code> を付けると、引用ブロックとして認識します。<br>
+									<code class="block-code">
+										> 引用
+									</code>
+								</p>
+								<p>また、設定が<b>引用ブロック</b>の場合、次のように直後に書かれたテキストも、引用ブロックとして認識します。<br>
+									<code class="block-code">
+										> 引用<br>
+										この行も引用
+									</code>
+								</p>
+								<p>
+									設定が<b>新たな段落</b>の場合、2行目以降が切り離され、別の段落と認識します。<br>
+									<code class="block-code">
+										> 引用<br>
+										この行は引用ブロックではない
+									</code>
+								</p>
+								<p>
+									設定が<b>新たな段落</b>の場合に、複数行の引用ブロックを書くには、全ての行頭に記号 <code>&gt;</code> を付けます。
+									<code class="block-code">
+										> 引用<br>
+										> この行は引用
+									</code>
+								</p>
 							</div>
 						</button>
 					</li>

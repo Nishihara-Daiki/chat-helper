@@ -266,7 +266,7 @@ var hold_images = (e, is_open) => {
 };
 
 // markdown
-var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highlight) => {
+var markdown = (e, is_meta, is_bos_meta, is_quote_break, is_gchat_style, code_style, is_langname, is_highlight) => {
 	var $textbox = e.querySelector('div[jsname="bgckF"]');
 	if ($textbox == null) {
 		return;
@@ -282,7 +282,7 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 	var renderer = new marked.Renderer();
 	renderer.link = (href, title, text) => {
 		if (/^\[\S*\]\(\S+\)$/.test(href)) {
-		href = href.replace(/^\[\S*\]\((\S+)\)$/, '$1')
+			href = href.replace(/^\[\S*\]\((\S+)\)$/, '$1');
 		}
 		return '<a href="' + href + '" title="' + title + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
 	};
@@ -324,12 +324,20 @@ var markdown = (e, is_meta, is_gchat_style, code_style, is_langname, is_highligh
 			console.error('code_style = ' + code_style);
 	}
 	if (is_meta) {
-		innerHTML = innerHTML.replace('&lt;', '<').replace('&gt;', '>');
+		innerHTML = innerHTML.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+	} else if (is_bos_meta) {
+		innerHTML = innerHTML.replace(/^&gt;/g, '>').replace(/\n&gt;/g, '\n>');
 	}
-	marked.setOptions({headerIds: false, breaks: true, renderer: renderer})
-	var marked_text = marked(innerHTML)
+
+	console.log(is_quote_break)
+	if (!is_quote_break) {
+		innerHTML = innerHTML.replace(/(^|\n)>([^\n]*)\n([^>])/g, '$1>$2\n\n$3'); // 引用の改行を無効
+	}
+
+	marked.setOptions({headerIds: false, breaks: true, renderer: renderer});
+	var marked_text = marked(innerHTML);
 	if (code_style == 'gfm') {
-		marked_text = marked_text.replaceAll('\n', '')
+		marked_text = marked_text.replaceAll('\n', '');
 	}
 	$textbox.innerHTML = marked_text;
 };
@@ -521,11 +529,13 @@ var main = () => {
 
 			if (settings["markdown"]) {
 				var is_meta = settings["markdown_option_meta"] == 'meta';
+				var is_bos_meta = settings["markdown_option_bos_meta"] == 'meta';
+				var is_quote_break = settings["markdown_option_quote_break"] == 'true';
 				var is_gchat_style = settings["markdown_option_style"] == 'valid';
 				var code_style = settings["markdown_option_code"];
 				var is_langname = settings["markdown_option_langname"] == 'on';
 				var is_highlight = settings["markdown_option_highlight"] == 'on';
-				markdown(e, is_meta, is_gchat_style, code_style, is_langname, is_highlight);
+				markdown(e, is_meta, is_bos_meta, is_quote_break, is_gchat_style, code_style, is_langname, is_highlight);
 			}
 
 			if (settings["math"]) {

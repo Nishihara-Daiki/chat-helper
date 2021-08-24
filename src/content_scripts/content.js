@@ -284,7 +284,11 @@ var markdown = (e, is_meta, is_bos_meta, is_quote_break, is_gchat_style, code_st
 		if (/^\[\S*\]\(\S+\)$/.test(href)) {
 			href = href.replace(/^\[\S*\]\((\S+)\)$/, '$1');
 		}
-		return '<a href="' + href + '" title="' + title + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
+		if (title) {
+			return '<a href="' + href + '" title="' + title + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
+		} else {
+			return '<a href="' + href + '" target="_blank" rel="noopener nofollow noreferrer" class="oiM5sf">' + text + '</a>';
+		}
 	};
 
 	if (is_gchat_style) {
@@ -329,7 +333,6 @@ var markdown = (e, is_meta, is_bos_meta, is_quote_break, is_gchat_style, code_st
 		innerHTML = innerHTML.replace(/^&gt;/g, '>').replace(/\n&gt;/g, '\n>');
 	}
 
-	console.log(is_quote_break)
 	if (!is_quote_break) {
 		innerHTML = innerHTML.replace(/(^|\n)>([^\n]*)\n([^>])/g, '$1>$2\n\n$3'); // 引用の改行を無効
 	}

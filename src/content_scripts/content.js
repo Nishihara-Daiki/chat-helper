@@ -244,25 +244,41 @@ var put_copy_button = e => {
 };
 
 // 画像を閉じる
-var hold_images = (e, is_open) => {
-	if (e.hasChildNodes() == false) {
+var hold_images = (e, is_default_open, is_remember) => {
+	$image_container = e.querySelector('div[jsname="KUOBaf"]');
+	if ($image_container.hasChildNodes() == false) {
 		return;
 	}
-	var $wrapper = e.firstChild;
+	var $wrapper = $image_container.firstChild;
 	var $inner = $wrapper.firstChild;
 	var aria_label = $inner.firstChild.getAttribute('aria-label');
 	if (typeof(aria_label) != "string" || aria_label.indexOf('画像') == -1) {
 		return;
 	}
 
-	var $details = document.createElement('details');
-	$details.open = is_open;
-	$details.classList.add('hold-images');
-	var $summary = document.createElement('summary');
-	$summary.textContent = "画像";
-	$details.append($summary);
-	$wrapper.append($details);
-	$details.append($inner);
+	chrome.storage.local.get(null, items => {
+		let id2isopen = items['hold_images_memory'] || {};
+		let data_id = e.getAttribute('data-id');
+		let is_open = is_remember && (data_id in id2isopen) ? id2isopen[data_id] : is_default_open;
+
+		var $details = document.createElement('details');
+		$details.open = is_open;
+		$details.classList.add('hold-images');
+		if (is_remember) {
+			$details.addEventListener('toggle', event => {
+				chrome.storage.local.get(null, items => {
+					let id2isopen = items['hold_images_memory'];
+					id2isopen[data_id] = $details.hasAttribute('open');
+					set_storage('hold_images_memory', id2isopen);
+				});
+			});
+		}
+		var $summary = document.createElement('summary');
+		$summary.textContent = "画像";
+		$details.append($summary);
+		$wrapper.append($details);
+		$details.append($inner);
+	});
 };
 
 // markdown
@@ -530,6 +546,12 @@ var main = () => {
 				put_copy_button(e);
 			}
 
+			if (settings["hold_images"]) {
+				let is_open_default = settings["hold_images_option"] == 'open';
+				let is_remember = settings["hold_images_remember"] == 'remember';
+				hold_images(e, is_open_default, is_remember);
+			}
+
 			if (settings["markdown"]) {
 				var is_meta = settings["markdown_option_meta"] == 'meta';
 				var is_bos_meta = settings["markdown_option_bos_meta"] == 'meta';
@@ -544,13 +566,8 @@ var main = () => {
 			if (settings["math"]) {
 				mathjax(e);
 			}
-		};
 
-		var for_image = e => {
-			if (settings["hold_images"]) {
-				hold_images(e, settings["hold_images_option"] == 'open');
-			}
-		}
+		};
 
 		var for_reaction_popup = e => {
 			if (settings["freq_reaction"]) {
@@ -579,7 +596,7 @@ var main = () => {
 		set_insertion('div[jsname="Ne3sFf"][class~="nF6pT"]', for_message);
 
 		// 画像ごと
-		set_insertion('div[jsname="KUOBaf"]', for_image);
+		// set_insertion('div[jsname="KUOBaf"]', for_image);
 
 		// リアクションポップアップごと
 		set_insertion('c-wiz[jsname="ewwDod"]', for_reaction_popup);

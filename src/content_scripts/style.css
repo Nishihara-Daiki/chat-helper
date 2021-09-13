@@ -269,15 +269,25 @@ details.hold-images summary {
 /* **********************************************
  * Markdown
  ************************************************ */
+:root {
+	--md-background-color: #f0f0f0;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--md-background-color: #303030;
+	}
+}
+
 .markdown-code-style-gfm pre {
 	padding: 8px;
 	white-space: pre-wrap;
-	background-color: #f0f0f0;
+	background-color: var(--md-background-color);
 }
 
 .markdown-code-style-gfm code:not(.markdown-code-style-gfm pre code) {
 	padding: 0 4px !important;
-	background-color: #f0f0f0 !important;
+	background-color: var(--md-background-color) !important;
 	color: #ff3333 !important;
 }
 

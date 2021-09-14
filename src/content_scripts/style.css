@@ -273,10 +273,8 @@ details.hold-images summary {
 	--md-background-color: #f0f0f0;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--md-background-color: #303030;
-	}
+[data-theme="dark"] {
+	--md-background-color: #303030;
 }
 
 .markdown-code-style-gfm pre {
